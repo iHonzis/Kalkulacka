@@ -4,24 +4,24 @@
 <dict>
 	<key>CFBundleIdentifier</key>
 	<string></string>
+	<key>CFBundleExecutable</key>
+	<string></string>
 	<key>UIApplicationShortcutItems</key>
-	<array>
+	<array/>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
 		<dict>
-			<key>UIApplicationShortcutItemType</key>
-			<string>com.kalkulacka.recordalcohol</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Record alcohol</string>
-			<key>UIApplicationShortcutItemIconType</key>
-			<string>Drink</string>
+			<key>UIWindowSceneSessionRoleApplication</key>
+			<array>
+				<dict>
+					<key>UISceneDelegateClassName</key>
+					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+				</dict>
+			</array>
 		</dict>
-		<dict>
-			<key>UIApplicationShortcutItemType</key>
-			<string>com.kalkulacka.recordcaffeine</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Record caffeine</string>
-			<key>UIApplicationShortcutItemIconType</key>
-			<string>Favorite</string>
-		</dict>
-	</array>
+	</dict>
 </dict>
 </plist>

@@ -1,66 +1,34 @@
-//
-//  ContentView.swift
-//  Kalkulacka
-//
-//  Created by Jan Hes on 21.06.2025.
-//
-
 import SwiftUI
-import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
+    @StateObject private var drinkStore = DrinkStore()
+    @State private var triggerAlcoholAdd = false
+    @State private var triggerCaffeineAdd = false
+    @State private var lastHandledShortcut: String? = nil
+    @State private var selectedTab = 0 // 0: Alcohol, 1: Caffeine
+    // Shortcut handling is currently disabled/hidden - TODO
 
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
+        TabView(selection: $selectedTab) {
+            AlcoholView(drinkStore: drinkStore, triggerAdd: $triggerAlcoholAdd)
+                .tabItem {
+                    Image(systemName: "wineglass")
+                    Text("Alcohol")
                 }
-                .onDelete(perform: deleteItems)
-            }
-#if os(macOS)
-            .navigationSplitViewColumnWidth(min: 180, ideal: 200)
-#endif
-            .toolbar {
-#if os(iOS)
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
+                .tag(0)
+            CaffeineView(drinkStore: drinkStore, triggerAdd: $triggerCaffeineAdd)
+                .tabItem {
+                    Image(systemName: "cup.and.saucer")
+                    Text("Caffeine")
                 }
-#endif
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
-            }
-        } detail: {
-            Text("Select an item")
+                .tag(1)
         }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
-        }
+        .accentColor(.red)
     }
 }
 
-#Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
-}
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+} 

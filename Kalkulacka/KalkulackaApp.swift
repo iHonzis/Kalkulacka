@@ -8,8 +8,31 @@
 import SwiftUI
 import SwiftData
 
+import UIKit
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    @objc dynamic var shortcutType: String?
+
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        print("AppDelegate: performActionFor shortcut \(shortcutItem.type)")
+        shortcutType = shortcutItem.type
+        UserDefaults.standard.set(shortcutItem.type, forKey: "launchShortcutType")
+        completionHandler(true)
+    }
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        if let shortcutItem = launchOptions?[.shortcutItem] as? UIApplicationShortcutItem {
+            print("AppDelegate: didFinishLaunchingWithOptions shortcut \(shortcutItem.type)")
+            shortcutType = shortcutItem.type
+            UserDefaults.standard.set(shortcutItem.type, forKey: "launchShortcutType")
+        }
+        return true
+    }
+}
+
 @main
 struct KalkulackaApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
