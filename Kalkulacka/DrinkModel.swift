@@ -171,8 +171,8 @@ class DrinkStore: ObservableObject {
     }
     
     func getTotalStandardDrinks() -> Double {
-        let todayAlcohol = getTodayDrinks(for: .alcohol)
-        return todayAlcohol.reduce(0) { $0 + $1.standardDrinks }
+        let recentAlcohol = getRecentDrinks(for: .alcohol)
+        return recentAlcohol.reduce(0) { $0 + $1.standardDrinks }
     }
     
     func getTotalCaffeine() -> Double {
@@ -184,31 +184,33 @@ class DrinkStore: ObservableObject {
     func getRecentDrinks(for type: DrinkType, hours: Double = 24) -> [Drink] {
         let now = Date()
         let from = now.addingTimeInterval(-hours * 3600)
+        for drink in drinks {
+            print("Drink: \(drink.name), type: \(drink.type), timestamp: \(drink.timestamp), now: \(now), from: \(from), included: \(drink.type == type && drink.timestamp >= from)")
+        }
         return drinks.filter { $0.type == type && $0.timestamp >= from }
     }
     
     // Blood Alcohol Content calculation in Promile (‰)
     func calculateCurrentBAC() -> Double {
-        let recentAlcohol = getRecentDrinks(for: .alcohol)
-        guard !recentAlcohol.isEmpty else { return 0.0 }
-        
-        let totalAlcoholGrams = recentAlcohol.reduce(0) { total, drink in
-            total + (drink.amount * (drink.alcoholPercentage ?? 0) / 100.0 * 0.789) // 0.789 is density of ethanol
+        let recentAlcoholDrinks = getRecentDrinks(for: .alcohol)
+        guard !recentAlcoholDrinks.isEmpty else { return 0.0 }
+
+        let totalAlcoholGrams = recentAlcoholDrinks.reduce(0) { total, drink in
+            total + (drink.amount * (drink.alcoholPercentage ?? 0) / 100.0 * 0.789)
         }
-        
+
         let bodyWeightInGrams = userProfile.weight * 1000
         let distributionFactor = userProfile.gender.distributionFactor
-        
         let bac = (totalAlcoholGrams / (bodyWeightInGrams * distributionFactor)) * 1000
-        
+
         // Subtract metabolized alcohol (average 0.15‰ per hour)
-        if let firstDrinkTimestamp = recentAlcohol.map({ $0.timestamp }).min() {
+        if let firstDrinkTimestamp = recentAlcoholDrinks.map({ $0.timestamp }).min() {
             let minutesSinceFirstDrink = Calendar.current.dateComponents([.minute], from: firstDrinkTimestamp, to: Date()).minute ?? 0
             let hoursSinceFirstDrink = Double(minutesSinceFirstDrink) / 60.0
             let metabolizedBAC = hoursSinceFirstDrink * 0.15
             return max(0, bac - metabolizedBAC)
         }
-        
+
         return max(0, bac)
     }
     

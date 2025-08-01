@@ -75,7 +75,7 @@ struct UserProfileView: View {
                     Button("Save Profile") {
                         saveProfile()
                     }
-                    .disabled(age.isEmpty || height.isEmpty)
+                    .disabled(age.isEmpty || height.isEmpty || (Double(weight) ?? 0) <= 0)
                 }
             }
             .navigationTitle("My Profile")
@@ -114,10 +114,11 @@ struct UserProfileView: View {
         if trimmedWeight.isEmpty {
             weightValue = 70.0 // Default weight if empty
         } else {
-            guard let parsedWeight = Double(trimmedWeight), parsedWeight > 0, parsedWeight < 500 else {
-                return
+            if let parsedWeight = Double(trimmedWeight), parsedWeight > 0, parsedWeight < 500 {
+                weightValue = parsedWeight
+            } else {
+                weightValue = 70.0 // Default if invalid (<=0 or too large)
             }
-            weightValue = parsedWeight
         }
         
         let newProfile = UserProfile(
