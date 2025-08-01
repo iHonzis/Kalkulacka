@@ -2,14 +2,15 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var drinkStore = DrinkStore()
+    @EnvironmentObject var shortcutManager: ShortcutManager
     @State private var triggerAlcoholAdd = false
     @State private var triggerCaffeineAdd = false
-    @State private var lastHandledShortcut: String? = nil
-    @State private var selectedTab = 0 // 0: Alcohol, 1: Caffeine
-    // Shortcut handling is currently disabled/hidden - TODO
 
     var body: some View {
-        TabView(selection: $selectedTab) {
+        TabView(selection: Binding(
+            get: { shortcutManager.shouldNavigateToTab },
+            set: { shortcutManager.shouldNavigateToTab = $0 }
+        )) {
             AlcoholView(drinkStore: drinkStore, triggerAdd: $triggerAlcoholAdd)
                 .tabItem {
                     Image(systemName: "wineglass")
@@ -24,6 +25,20 @@ struct ContentView: View {
                 .tag(1)
         }
         .accentColor(.red)
+        .sheet(isPresented: Binding(
+            get: { shortcutManager.shouldShowDrinkEntry },
+            set: { 
+                shortcutManager.shouldShowDrinkEntry = $0
+                if !$0 {
+                    // Clear the shortcut when the sheet is dismissed
+                    shortcutManager.clearShortcut()
+                }
+            }
+        )) {
+            NavigationView {
+                DrinkEntryView(drinkStore: drinkStore, drinkType: shortcutManager.drinkEntryType)
+            }
+        }
     }
 }
 

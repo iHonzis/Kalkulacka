@@ -184,9 +184,7 @@ class DrinkStore: ObservableObject {
     func getRecentDrinks(for type: DrinkType, hours: Double = 24) -> [Drink] {
         let now = Date()
         let from = now.addingTimeInterval(-hours * 3600)
-        for drink in drinks {
-            print("Drink: \(drink.name), type: \(drink.type), timestamp: \(drink.timestamp), now: \(now), from: \(from), included: \(drink.type == type && drink.timestamp >= from)")
-        }
+        
         return drinks.filter { $0.type == type && $0.timestamp >= from }
     }
     

@@ -10,29 +10,63 @@ import SwiftData
 
 import UIKit
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-    @objc dynamic var shortcutType: String?
+class ShortcutManager: ObservableObject {
+    static let shared = ShortcutManager()
+    
+    @Published var pendingShortcut: String?
+    @Published var shouldNavigateToTab: Int = 0
+    @Published var shouldShowDrinkEntry: Bool = false
+    @Published var drinkEntryType: DrinkType = .alcohol
+    
+    func handleShortcut(_ shortcutType: String) {
+        DispatchQueue.main.async {
+            self.pendingShortcut = shortcutType
+            
+            switch shortcutType {
+            case "log-alcohol":
+                self.shouldNavigateToTab = 0
+                self.drinkEntryType = .alcohol
+                self.shouldShowDrinkEntry = true
+            case "log-caffeine":
+                self.shouldNavigateToTab = 1
+                self.drinkEntryType = .caffeine
+                self.shouldShowDrinkEntry = true
+            default:
+                break
+            }
+        }
+    }
+    
+    func clearShortcut() {
+        pendingShortcut = nil
+        shouldShowDrinkEntry = false
+    }
+}
 
+class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
-        print("AppDelegate: performActionFor shortcut \(shortcutItem.type)")
-        shortcutType = shortcutItem.type
-        UserDefaults.standard.set(shortcutItem.type, forKey: "launchShortcutType")
+        ShortcutManager.shared.handleShortcut(shortcutItem.type)
         completionHandler(true)
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         if let shortcutItem = launchOptions?[.shortcutItem] as? UIApplicationShortcutItem {
-            print("AppDelegate: didFinishLaunchingWithOptions shortcut \(shortcutItem.type)")
-            shortcutType = shortcutItem.type
-            UserDefaults.standard.set(shortcutItem.type, forKey: "launchShortcutType")
+            ShortcutManager.shared.handleShortcut(shortcutItem.type)
         }
         return true
+    }
+    
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        let sceneConfiguration = UISceneConfiguration(name: "Custom Configuration", sessionRole: connectingSceneSession.role)
+        sceneConfiguration.delegateClass = SceneDelegate.self
+        return sceneConfiguration
     }
 }
 
 @main
 struct KalkulackaApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -49,6 +83,7 @@ struct KalkulackaApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(ShortcutManager.shared)
         }
         .modelContainer(sharedModelContainer)
     }

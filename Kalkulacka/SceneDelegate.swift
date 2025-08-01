@@ -6,13 +6,20 @@
 //
 
 import UIKit
+import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
+    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        // Handle shortcut if app was launched via quick action
+        if let shortcutItem = connectionOptions.shortcutItem {
+            ShortcutManager.shared.handleShortcut(shortcutItem.type)
+        }
+    }
+
     func windowScene(_ windowScene: UIWindowScene, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
-        print("SceneDelegate: performActionFor shortcut \(shortcutItem.type)")
-        UserDefaults.standard.set(shortcutItem.type, forKey: "launchShortcutType")
+        ShortcutManager.shared.handleShortcut(shortcutItem.type)
         completionHandler(true)
     }
 }
