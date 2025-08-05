@@ -155,18 +155,26 @@ struct AlcoholView: View {
     }
     
     private var soberTimeDisplay: some View {
-        VStack(spacing: 4) {
-            Text("You will be sober at:")
-                .font(.headline)
-                .foregroundColor(.primary)
-            Text(drinkStore.getSoberTimeString())
-                .font(.system(size: 24, weight: .bold, design: .rounded))
-                .foregroundColor(.green)
+        VStack(spacing: 0) {
+            VStack(spacing: 4) {
+                Text("You will be sober at:")
+                    .font(.headline)
+                    .foregroundColor(.primary)
+                Text(drinkStore.getSoberTimeString())
+                    .font(.system(size: 24, weight: .bold, design: .rounded))
+                    .foregroundColor(.green)
+            }
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(Color(UIColor.systemGray6))
+            .cornerRadius(12)
+            Text("Alcohol can be addictive. The resutls shown are  based on average metabolism rates.")
+                .font(.system(size: 15, weight: .medium))
+                .foregroundColor(Color(UIColor.systemGray))
+                .multilineTextAlignment(.center)
+                .padding(.top, 12)
+                .padding(.horizontal, 8)
         }
-        .padding()
-        .frame(maxWidth: .infinity)
-        .background(Color(UIColor.systemGray6))
-        .cornerRadius(12)
     }
     
     private var historyLink: some View {

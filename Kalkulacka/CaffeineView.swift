@@ -140,37 +140,45 @@ struct CaffeineView: View {
     }
     
     private var todaySummary: some View {
-        VStack(spacing: 8) {
-            Text("Today's Summary")
-                .font(.headline)
-                .foregroundColor(.primary)
-            
-            HStack(spacing: 20) {
-                VStack {
-                    Text("\(String(format: "%.0f", drinkStore.calculateCurrentCaffeine()))")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundColor(.orange)
-                    Text("mg Active")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
+        VStack(spacing: 0){
+            VStack(spacing: 8) {
+                Text("Today's Summary")
+                    .font(.headline)
+                    .foregroundColor(.primary)
                 
-                VStack {
-                    Text("\(drinkStore.getTodayDrinks(for: .caffeine).count)")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundColor(.orange)
-                    Text("Drinks")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                HStack(spacing: 20) {
+                    VStack {
+                        Text("\(String(format: "%.0f", drinkStore.calculateCurrentCaffeine()))")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundColor(.orange)
+                        Text("mg Active")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    VStack {
+                        Text("\(drinkStore.getTodayDrinks(for: .caffeine).count)")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundColor(.orange)
+                        Text("Drinks")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
                 }
             }
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(Color(UIColor.systemGray6))
+            .cornerRadius(12)
+            Text("Caffeine can be addictive. The resutls shown are  based on average metabolism rates.")
+                .font(.system(size: 15, weight: .medium))
+                .foregroundColor(Color(UIColor.systemGray))
+                .multilineTextAlignment(.center)
+                .padding(.top, 12)
+                .padding(.horizontal, 8)
         }
-        .padding()
-        .frame(maxWidth: .infinity)
-        .background(Color(UIColor.systemGray6))
-        .cornerRadius(12)
     }
     
     private var historyLink: some View {
