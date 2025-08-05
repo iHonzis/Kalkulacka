@@ -65,7 +65,7 @@ The app uses the **Widmark formula** to calculate blood alcohol content:
 BAC = (Alcohol in grams / (Body weight in grams × Distribution factor)) × 100
 ```
 
-- **Distribution factors**: Male (0.68), Female (0.55), Other (0.61)
+- **Distribution factors**: Male (0.68), Female (0.55), Other (0.61, but hiddden in UI)
 - **Alcohol metabolism**: Subtracts 0.015% per hour since first drink
 - **Real-time updates**: BAC changes as you add drinks and time passes
 

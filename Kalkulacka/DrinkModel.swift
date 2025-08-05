@@ -151,13 +151,11 @@ class DrinkStore: ObservableObject {
     
     func getDrinks(for type: DrinkType, in dateRange: DateInterval? = nil) -> [Drink] {
         let filtered = drinks.filter { $0.type == type }
-        
         if let dateRange = dateRange {
             return filtered.filter { drink in
                 dateRange.contains(drink.timestamp)
             }
         }
-        
         return filtered
     }
     
@@ -268,27 +266,27 @@ class DrinkStore: ObservableObject {
     func calculateSoberTime() -> Date? {
         let recentAlcohol = getRecentDrinks(for: .alcohol)
         guard !recentAlcohol.isEmpty else { return nil }
-        
+
         // Calculate total alcohol grams consumed
         let totalAlcoholGrams = recentAlcohol.reduce(0) { total, drink in
             total + (drink.amount * (drink.alcoholPercentage ?? 0) / 100.0 * 0.789)
         }
-        
+
         let bodyWeightInGrams = userProfile.weight * 1000
         let distributionFactor = userProfile.gender.distributionFactor
-        
+
         // Calculate peak BAC (without metabolism)
         let peakBAC = (totalAlcoholGrams / (bodyWeightInGrams * distributionFactor)) * 1000
-        
+
         // Find the latest drink timestamp (when the last drink was consumed)
         guard let latestDrinkTime = recentAlcohol.map({ $0.timestamp }).max() else { return nil }
-        
-        // Calculate how long it takes to metabolize from peak BAC to 0.2‰
-        let hoursToSober = (peakBAC - 0.2) / 0.15 // 0.15‰ per hour metabolism rate
-        
+
+        // Calculate how long it takes to metabolize from peak BAC to 0.0‰
+        let hoursToSober = (peakBAC - 0.0) / 0.15 // 0.15‰ per hour metabolism rate
+
         // Sober time = latest drink time + hours to metabolize to 0.2‰
         let soberDate = latestDrinkTime.addingTimeInterval(hoursToSober * 3600)
-        
+
         // If sober time is in the past, return nil (already sober)
         return soberDate > Date() ? soberDate : nil
     }
