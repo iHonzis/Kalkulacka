@@ -1,0 +1,19 @@
+/* 
+  Localizable.strings
+  Kalkulacka
+
+  Created by Jan Hes on 06.08.2025.
+  
+*/
+
+"message" = "Hello";
+"Edit" = "Edit";
+"Me" = "Me";
+"Alcohol Tracker" = "Alcohol Tracker";
+"of" = "of";
+"Standard Drinks" = "Standard Drinks";
+
+"summary_title" = "Today's Summary";
+"mg_active" = "mg Active";
+"drinks" = "Drinks";
+"caffeine_disclaimer" = "Caffeine can be addictive. The results shown are based on average metabolism rates.";

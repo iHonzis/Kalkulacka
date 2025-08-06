@@ -7,3 +7,13 @@
 */
 
 "message" = "Ahoj";
+"Edit" = "Upravit";
+"Me" = "Já";
+"Alcohol Tracker" = "Alkohol Kalkulačka";
+"of" = "z";
+"Standard Drinks" = "Bězných nápojů";
+
+"summary_title" = "Dnešní souhrn";
+"mg_active" = "Aktivní mg";
+"drinks" = "Nápoje";
+"caffeine_disclaimer" = "Kofein může být návykový. Daný výsledek je vypočten z průmerného metabolismu zadaného jedince.";

@@ -1,4 +1,6 @@
 import SwiftUI
+// Add this import for language manager for future
+import Combine
 
 struct CaffeineView: View {
     @ObservedObject var drinkStore: DrinkStore
@@ -61,7 +63,6 @@ struct CaffeineView: View {
                     }
                     .foregroundColor(.orange)
                 }
-                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Me") {
                         showingUserProfile = true
@@ -142,27 +143,25 @@ struct CaffeineView: View {
     private var todaySummary: some View {
         VStack(spacing: 0){
             VStack(spacing: 8) {
-                Text("Today's Summary")
+                Text("summary_title")
                     .font(.headline)
                     .foregroundColor(.primary)
-                
                 HStack(spacing: 20) {
                     VStack {
                         Text("\(String(format: "%.0f", drinkStore.calculateCurrentCaffeine()))")
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(.orange)
-                        Text("mg Active")
+                        Text("mg_active")
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
-                    
                     VStack {
                         Text("\(drinkStore.getTodayDrinks(for: .caffeine).count)")
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(.orange)
-                        Text("Drinks")
+                        Text("drinks")
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -172,7 +171,7 @@ struct CaffeineView: View {
             .frame(maxWidth: .infinity)
             .background(Color(UIColor.systemGray6))
             .cornerRadius(12)
-            Text("Caffeine can be addictive. The resutls shown are  based on average metabolism rates.")
+            Text("caffeine_disclaimer")
                 .font(.system(size: 15, weight: .medium))
                 .foregroundColor(Color(UIColor.systemGray))
                 .multilineTextAlignment(.center)
