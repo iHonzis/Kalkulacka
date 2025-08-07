@@ -17,3 +17,8 @@
 "mg_active" = "Aktivní mg";
 "drinks" = "Nápoje";
 "caffeine_disclaimer" = "Kofein může být návykový. Daný výsledek je vypočten z průmerného metabolismu zadaného jedince.";
+
+"title_caffeine" = "Kofeinová Kalkulačka";
+"Caffeine_(mg)" = "Kofein (mg)";
+"when_off" = "Efekt kofeinu vyprší ve:";
+"Add_drink" = "Přidat Nápoj";

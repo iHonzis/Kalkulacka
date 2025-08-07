@@ -17,3 +17,8 @@
 "mg_active" = "mg Active";
 "drinks" = "Drinks";
 "caffeine_disclaimer" = "Caffeine can be addictive. The results shown are based on average metabolism rates.";
+
+"title_caffeine" = "Caffeine Tracker";
+"Caffeine_(mg)" = "Caffeine (mg)";
+"when_off" = "Caffeine effect wears off at:";
+"Add_drink" = "Add Drink";

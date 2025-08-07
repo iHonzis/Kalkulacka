@@ -54,7 +54,7 @@ struct CaffeineView: View {
                     self.now = Date()
                 }
             }
-            .navigationTitle("Caffeine Tracker")
+            .navigationTitle("title_caffeine")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -99,7 +99,7 @@ struct CaffeineView: View {
                 size: 150
             )
             
-            Text("Caffeine (mg)")
+            Text("Caffeine_(mg)")
                 .font(.title2)
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
@@ -109,7 +109,7 @@ struct CaffeineView: View {
     
     private var cleanTimeDisplay: some View {
         VStack(spacing: 4) {
-            Text("Caffeine effect wears off at:")
+            Text("when_off")
                 .font(.headline)
                 .foregroundColor(.primary)
             Text(drinkStore.getCleanTimeString())
@@ -129,7 +129,7 @@ struct CaffeineView: View {
             HStack {
                 Image(systemName: "plus.circle.fill")
                     .font(.title2)
-                Text("Add Drink")
+                Text("Add_drink")
                     .font(.headline)
             }
             .foregroundColor(.white)
