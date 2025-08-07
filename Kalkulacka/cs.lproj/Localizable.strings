@@ -22,3 +22,12 @@
 "Caffeine_(mg)" = "Kofein (mg)";
 "when_off" = "Efekt kofeinu vyprší ve:";
 "Add_drink" = "Přidat Nápoj";
+
+"alc_disclaimer" = "Alkohol může být návykový. Daný výsledek je vypočten z průmerného metabolismu zadaného jedince.";
+"when_off" = "Střízliví budete ve:";
+"today" = "dnes";
+"Drinks" = "Nápojů";
+"BAC" = "ALK";
+"of_max" = "ze %d";
+"Alcohol" = "Alkohol";
+"Caffeine" = "Kofein";

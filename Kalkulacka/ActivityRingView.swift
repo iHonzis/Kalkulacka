@@ -24,19 +24,19 @@ struct ActivityRingView: View {
                 .stroke(color.opacity(0.3), lineWidth: 12)
                 .frame(width: size, height: size)
             
-            // Progress ring
-            Circle()
-                .trim(from: 0, to: percentage)
-                .stroke(
-                    color,
-                    style: StrokeStyle(
-                        lineWidth: 12,
-                        lineCap: .round
+                // Progress ring
+                Circle()
+                    .trim(from: 0, to: percentage)
+                    .stroke(
+                        color,
+                        style: StrokeStyle(
+                            lineWidth: 12,
+                            lineCap: .round
+                        )
                     )
-                )
-                .frame(width: size, height: size)
-                .rotationEffect(.degrees(-90))
-                .animation(.easeInOut(duration: 1.0), value: percentage)
+                    .frame(width: size, height: size)
+                    .rotationEffect(.degrees(-90))
+                    .animation(.easeInOut(duration: 1.0), value: percentage)
             
             // Center content
             VStack(spacing: 4) {
@@ -44,13 +44,13 @@ struct ActivityRingView: View {
                     .font(.system(size: size * 0.25, weight: .bold, design: .rounded))
                     .foregroundColor(color)
                 
-                Text("of \(Int(maxValue))")
-                    .font(.system(size: size * 0.15, weight: .medium, design: .rounded))
-                    .foregroundColor(.secondary)
+                    Text(String(format: NSLocalizedString("of_max", comment: ""), Int(maxValue)))
+                        .font(.system(size: size * 0.15, weight: .medium, design: .rounded))
+                        .foregroundColor(.secondary)
+                }
             }
         }
     }
-}
 
 struct ActivityRingView_Previews: PreviewProvider {
     static var previews: some View {

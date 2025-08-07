@@ -143,7 +143,7 @@ struct AlcoholView: View {
             HStack {
                 Image(systemName: "plus.circle.fill")
                     .font(.title2)
-                Text("Add Drink")
+                Text("Add_drink")
                     .font(.headline)
             }
             .foregroundColor(.white)
@@ -157,7 +157,7 @@ struct AlcoholView: View {
     private var soberTimeDisplay: some View {
         VStack(spacing: 0) {
             VStack(spacing: 4) {
-                Text("You will be sober at:")
+                Text("when_off")
                     .font(.headline)
                     .foregroundColor(.primary)
                 Text(drinkStore.getSoberTimeString())
@@ -168,7 +168,7 @@ struct AlcoholView: View {
             .frame(maxWidth: .infinity)
             .background(Color(UIColor.systemGray6))
             .cornerRadius(12)
-            Text("Alcohol can be addictive. The resutls shown are  based on average metabolism rates.")
+            Text("alc_disclaimer")
                 .font(.system(size: 15, weight: .medium))
                 .foregroundColor(Color(UIColor.systemGray))
                 .multilineTextAlignment(.center)

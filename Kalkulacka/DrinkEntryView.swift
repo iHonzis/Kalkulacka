@@ -79,8 +79,8 @@ struct DrinkEntryView: View {
     var body: some View {
         VStack {
             if !popularDrinks.isEmpty {
-                Picker("Drink Type", selection: $selectedTab) {
-                    ForEach(0..<tabs.count, id: \.self) { index in
+                Picker("drink_type", selection: $selectedTab) {
+                    ForEach(0..<tabs.count, id: \ .self) { index in
                         Text(tabs[index]).tag(index)
                     }
                 }

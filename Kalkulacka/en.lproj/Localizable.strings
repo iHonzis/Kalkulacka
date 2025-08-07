@@ -22,3 +22,12 @@
 "Caffeine_(mg)" = "Caffeine (mg)";
 "when_off" = "Caffeine effect wears off at:";
 "Add_drink" = "Add Drink";
+
+"alc_disclaimer" = "Alcohol can be addictive. The results shown are based on average metabolism rates.";
+"when_off" = "You will be sober at:";
+"today" = "today";
+"Drinks" = "Drinks";
+"BAC" = "BAC";
+"of_max" = "of %d";
+"Alcohol" = "Alcohol";
+"Caffeine" = "Caffeine";
