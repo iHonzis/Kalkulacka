@@ -22,6 +22,8 @@ struct DrinkEntryView: View {
     @State private var unit = "ml"
     @State private var alcoholPercentage = ""
     @State private var caffeineContent = ""
+    @State private var errorMessage = ""
+    @State private var showingError = false
     
     // State for segmented picker
     @State private var selectedTab = 0
@@ -155,6 +157,11 @@ struct DrinkEntryView: View {
                 }
             }
         }
+        .alert("Validation Error", isPresented: $showingError) {
+            Button("OK") { }
+        } message: {
+            Text(errorMessage)
+        }
     }
     
     private func addPopularDrink(_ popularDrink: PopularDrinkData) {
@@ -166,12 +173,21 @@ struct DrinkEntryView: View {
             alcoholPercentage: popularDrink.alcoholPercentage,
             caffeineContent: popularDrink.caffeineContent
         )
-        drinkStore.addDrink(drink)
-        dismiss()
+        
+        if let error = drinkStore.addDrink(drink) {
+            errorMessage = error
+            showingError = true
+        } else {
+            dismiss()
+        }
     }
     
     private func addCustomDrink() {
-        guard let amountValue = Double(amount) else { return }
+        guard let amountValue = Double(amount) else { 
+            errorMessage = "Please enter a valid amount"
+            showingError = true
+            return 
+        }
         
         let drink: Drink
         
@@ -195,8 +211,12 @@ struct DrinkEntryView: View {
             )
         }
         
-        drinkStore.addDrink(drink)
-        dismiss()
+        if let error = drinkStore.addDrink(drink) {
+            errorMessage = error
+            showingError = true
+        } else {
+            dismiss()
+        }
     }
 }
 

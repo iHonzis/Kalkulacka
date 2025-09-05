@@ -106,14 +106,115 @@ class DrinkStore: ObservableObject {
     private let drinksKey = "SavedDrinks"
     private let profileKey = "UserProfile"
     
+    // Validation constants
+    private let maxDrinkSizeML = 2500.0 // Maximum drink size in ml
+    private let maxAlcoholPercentage = 100.0 // Maximum alcohol percentage
+    private let maxCaffeineContent = 250.0 // Maximum caffeine content in mg
+    
     init() {
         loadDrinks()
         loadUserProfile()
     }
     
-    func addDrink(_ drink: Drink) {
+    // MARK: - Validation Functions
+    
+    /// Validates drink size based on unit and returns error message if invalid
+    func validateDrinkSize(amount: Double, unit: String) -> String? {
+        let amountInML = convertToML(amount: amount, unit: unit)
+        
+        if amountInML > maxDrinkSizeML {
+            let maxInUnit = convertFromML(amount: maxDrinkSizeML, unit: unit)
+            return "Drink size cannot exceed \(String(format: "%.0f", maxInUnit)) \(unit)"
+        }
+        
+        if amountInML <= 0 {
+            return "Drink size must be greater than 0"
+        }
+        
+        return nil
+    }
+    
+    /// Validates alcohol percentage and returns error message if invalid
+    func validateAlcoholPercentage(_ percentage: Double) -> String? {
+        if percentage > maxAlcoholPercentage {
+            return "Alcohol percentage cannot exceed \(String(format: "%.0f", maxAlcoholPercentage))%"
+        }
+        
+        if percentage < 0 {
+            return "Alcohol percentage cannot be negative"
+        }
+        
+        return nil
+    }
+    
+    /// Validates caffeine content and returns error message if invalid
+    func validateCaffeineContent(_ caffeine: Double) -> String? {
+        if caffeine > maxCaffeineContent {
+            return "Caffeine content cannot exceed \(String(format: "%.0f", maxCaffeineContent))mg"
+        }
+        
+        if caffeine < 0 {
+            return "Caffeine content cannot be negative"
+        }
+        
+        return nil
+    }
+    
+    /// Converts amount to milliliters for validation
+    private func convertToML(amount: Double, unit: String) -> Double {
+        switch unit.lowercased() {
+        case "ml":
+            return amount
+        case "oz":
+            return amount * 29.5735 // 1 oz = 29.5735 ml
+        case "cl":
+            return amount * 10 // 1 cl = 10 ml
+        case "fl oz":
+            return amount * 29.5735 // 1 fl oz = 29.5735 ml
+        default:
+            return amount // Default to ml if unit not recognized
+        }
+    }
+    
+    /// Converts amount from milliliters to specified unit
+    private func convertFromML(amount: Double, unit: String) -> Double {
+        switch unit.lowercased() {
+        case "ml":
+            return amount
+        case "oz":
+            return amount / 29.5735
+        case "cl":
+            return amount / 10
+        case "fl oz":
+            return amount / 29.5735
+        default:
+            return amount
+        }
+    }
+    
+    func addDrink(_ drink: Drink) -> String? {
+        // Validate drink size
+        if let sizeError = validateDrinkSize(amount: drink.amount, unit: drink.unit) {
+            return sizeError
+        }
+        
+        // Validate alcohol percentage if applicable
+        if drink.type == .alcohol, let alcoholPercentage = drink.alcoholPercentage {
+            if let alcoholError = validateAlcoholPercentage(alcoholPercentage) {
+                return alcoholError
+            }
+        }
+        
+        // Validate caffeine content if applicable
+        if drink.type == .caffeine, let caffeineContent = drink.caffeineContent {
+            if let caffeineError = validateCaffeineContent(caffeineContent) {
+                return caffeineError
+            }
+        }
+        
         drinks.append(drink)
         saveDrinks()
+        return nil // No error
     }
     
     func removeDrink(_ drink: Drink) {
