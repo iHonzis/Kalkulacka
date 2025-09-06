@@ -31,3 +31,92 @@
 "of_max" = "of %d";
 "Alcohol" = "Alcohol";
 "Caffeine" = "Caffeine";
+
+"Empty" = "Effect has worn off";
+
+"Cancel" = "Cancel";
+"Add Drink" = "Add Drink";
+"Drink Details" = "Drink Details";
+"Alcohol Content" = "Alcohol Content";
+"Caffeine Content" = "Caffeine Content";
+"Drink name" = "Drink name";
+"Amount" = "Amount";
+"Unit" = "Unit";
+"Alcohol %" = "Alcohol %";
+"Validation Error" = "Validation Error";
+"OK" = "OK";
+"Please enter a valid amount" = "Please enter a valid amount";
+"drink_type" = "Drink type";
+"Popular" = "Popular";
+"Custom" = "Custom";
+"Add" = "Add";
+"Already sober" = "Already sober";
+
+"Personal Information" = "Personal Information";
+"Age" = "Age";
+"years" = "years";
+"Gender" = "Gender";
+"Physical Measurements" = "Physical Measurements";
+"Weight" = "Weight";
+"Height" = "Height";
+"Health Information" = "Health Information";
+"BMI" = "BMI";
+"BMI Category" = "BMI Category";
+"Save Profile" = "Save Profile";
+"My Profile" = "My Profile";
+"Underweight" = "Underweight";
+"Normal" = "Normal";
+"Overweight" = "Overweight";
+"Obese" = "Obese";
+
+"No drinks recorded" = "No drinks recorded";
+"Edit Time" = "Edit Time";
+"Delete All" = "Delete All";
+"History" = "History";
+"Are you sure?" = "Are you sure?";
+"This will permanently delete all recorded drinks" = "This will permanently delete all recorded drinks";
+"Edit Time for" = "Edit Time for";
+"Time" = "Time";
+"Save" = "Save";
+
+"Male" = "Male";
+"Female" = "Female";
+
+"Delete All Drinks" = "Delete All Drinks";
+
+// Alcoholic drinks
+"Beer 10º" = "Beer 10º";
+"Beer 11º" = "Beer 11º";
+"Beer 12º" = "Beer 12º";
+"Wine Glass" = "Wine Glass";
+"Wine Bottle" = "Wine Bottle";
+"Vodka" = "Vodka";
+"Champagne" = "Champagne";
+"Cider" = "Cider";
+"Absinth" = "Absinth";
+"Gin Tonic" = "Gin Tonic";
+"Moscow Mule" = "Moscow Mule";
+"Cuba Libre" = "Cuba Libre";
+"Mojito" = "Mojito";
+"Whiskey" = "Whiskey";
+"Rum" = "Rum";
+"Green" = "Green";
+"Jägermeister" = "Jägermeister";
+"B Lemond" = "B Lemond";
+
+// Caffeine drinks
+"Red Bull" = "Red Bull";
+"Monster" = "Monster";
+"Monster Ultra" = "Monster Ultra";
+"Crazy Wolf" = "Crazy Wolf";
+"Tiger" = "Tiger";
+"Rockstar" = "Rockstar";
+"Big Shock" = "Big Shock";
+"Espresso" = "Espresso";
+"Double Espresso" = "Double Espresso";
+"Cappuccino" = "Cappuccino";
+"Caffe Latte" = "Caffè Latte";
+"Flat White" = "Flat White";
+"Green Tea" = "Green Tea";
+"Black Tea" = "Black Tea";
+"Americano" = "Americano";

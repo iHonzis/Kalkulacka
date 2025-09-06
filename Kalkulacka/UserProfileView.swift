@@ -4,7 +4,7 @@ struct UserProfileView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var drinkStore: DrinkStore
     
-    @State private var age: String = ""
+    @State private var age: Double = 25
     @State private var gender: Gender = .male
     @State private var weight: String = ""
     @State private var height: String = ""
@@ -12,30 +12,28 @@ struct UserProfileView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section("Personal Information") {
-                    HStack {
-                        Text("Age")
-                        Spacer()
-                        TextField("Age", text: $age)
-                            .keyboardType(.numberPad)
-                            .multilineTextAlignment(.trailing)
-                        Text("years")
-                            .foregroundColor(.secondary)
+                Section(NSLocalizedString("Personal Information", comment: "")) {
+                    Picker(NSLocalizedString("Age", comment: ""), selection: $age) {
+                        ForEach(18...122, id: \.self) { ageValue in
+                            Text("\(ageValue) \(NSLocalizedString("years", comment: ""))")
+                                .tag(Double(ageValue))
+                        }
                     }
+                    .pickerStyle(MenuPickerStyle())
                     
-                    Picker("Gender", selection: $gender) {
+                    Picker(NSLocalizedString("Gender", comment: ""), selection: $gender) {
                         ForEach(Gender.allCases, id: \.self) { gender in
-                            Text(gender.rawValue).tag(gender)
+                            Text(gender.localizedName).tag(gender)
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
                 }
                 
-                Section("Physical Measurements") {
+                Section(NSLocalizedString("Physical Measurements", comment: "")) {
                     HStack {
-                        Text("Weight")
+                        Text(NSLocalizedString("Weight", comment: ""))
                         Spacer()
-                        TextField("Weight", text: $weight)
+                        TextField(NSLocalizedString("Weight", comment: ""), text: $weight)
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
                         Text("kg")
@@ -43,9 +41,9 @@ struct UserProfileView: View {
                     }
                     
                     HStack {
-                        Text("Height")
+                        Text(NSLocalizedString("Height", comment: ""))
                         Spacer()
-                        TextField("Height", text: $height)
+                        TextField(NSLocalizedString("Height", comment: ""), text: $height)
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
                         Text("cm")
@@ -54,16 +52,16 @@ struct UserProfileView: View {
                 }
                 
                 if let bmi = calculateBMI() {
-                    Section("Health Information") {
+                    Section(NSLocalizedString("Health Information", comment: "")) {
                         HStack {
-                            Text("BMI")
+                            Text(NSLocalizedString("BMI", comment: ""))
                             Spacer()
                             Text(String(format: "%.1f", bmi))
                                 .foregroundColor(bmiColor(bmi))
                         }
                         
                         HStack {
-                            Text("BMI Category")
+                            Text(NSLocalizedString("BMI Category", comment: ""))
                             Spacer()
                             Text(bmiCategory(bmi))
                                 .foregroundColor(bmiColor(bmi))
@@ -72,17 +70,17 @@ struct UserProfileView: View {
                 }
                 
                 Section {
-                    Button("Save Profile") {
+                    Button(NSLocalizedString("Save Profile", comment: "")) {
                         saveProfile()
                     }
-                    .disabled(age.isEmpty || height.isEmpty || (Double(weight) ?? 0) <= 0)
+                    .disabled(height.isEmpty || (Double(weight) ?? 0) <= 0)
                 }
             }
-            .navigationTitle("My Profile")
+            .navigationTitle(NSLocalizedString("My Profile", comment: ""))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
+                    Button(NSLocalizedString("Cancel", comment: "")) {
                         dismiss()
                     }
                 }
@@ -95,7 +93,7 @@ struct UserProfileView: View {
     
     private func loadCurrentProfile() {
         let profile = drinkStore.userProfile
-        age = String(profile.age)
+        age = Double(profile.age)
         gender = profile.gender
         weight = String(format: "%.1f", profile.weight)
         height = String(format: "%.1f", profile.height)
@@ -103,7 +101,8 @@ struct UserProfileView: View {
     
     private func saveProfile() {
         // Validate required input
-        guard let ageValue = Int(age), ageValue > 0, ageValue < 150,
+        let ageValue = Int(age)
+        guard ageValue >= 18 && ageValue <= 122,
               let heightValue = Double(height), heightValue > 0, heightValue < 300 else {
             return
         }
@@ -146,13 +145,13 @@ struct UserProfileView: View {
     private func bmiCategory(_ bmi: Double) -> String {
         switch bmi {
         case ..<18.5:
-            return "Underweight"
+            return NSLocalizedString("Underweight", comment: "")
         case 18.5..<25:
-            return "Normal"
+            return NSLocalizedString("Normal", comment: "")
         case 25..<30:
-            return "Overweight"
+            return NSLocalizedString("Overweight", comment: "")
         default:
-            return "Obese"
+            return NSLocalizedString("Obese", comment: "")
         }
     }
     

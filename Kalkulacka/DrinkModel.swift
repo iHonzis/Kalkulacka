@@ -39,6 +39,15 @@ enum Gender: String, CaseIterable, Codable {
             //return 0.61 // Average of male and female
         }
     }
+    
+    var localizedName: String {
+        switch self {
+        case .male:
+            return NSLocalizedString("Male", comment: "")
+        case .female:
+            return NSLocalizedString("Female", comment: "")
+        }
+    }
 }
 
 struct UserProfile: Codable {
@@ -353,7 +362,7 @@ class DrinkStore: ObservableObject {
     // Format clean time for display
     func getCleanTimeString() -> String {
         guard let cleanTime = calculateCleanTime() else {
-            return "Effect has worn off"
+            return NSLocalizedString("Empty", comment: "")
         }
 
         let formatter = DateFormatter()
@@ -395,7 +404,7 @@ class DrinkStore: ObservableObject {
     // Format sober time for display
     func getSoberTimeString() -> String {
         guard let soberTime = calculateSoberTime() else {
-            return "Already sober"
+            return NSLocalizedString("Already sober", comment: "")
         }
         
         let formatter = DateFormatter()

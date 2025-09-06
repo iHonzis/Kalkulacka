@@ -14,13 +14,13 @@ struct ContentView: View {
             AlcoholView(drinkStore: drinkStore, triggerAdd: $triggerAlcoholAdd)
                 .tabItem {
                     Image(systemName: "wineglass")
-                    Text("Alcohol")
+                    Text(NSLocalizedString("Alcohol", comment: ""))
                 }
                 .tag(0)
             CaffeineView(drinkStore: drinkStore, triggerAdd: $triggerCaffeineAdd)
                 .tabItem {
                     Image(systemName: "cup.and.saucer")
-                    Text("Caffeine")
+                    Text(NSLocalizedString("Caffeine", comment: ""))
                 }
                 .tag(1)
         }

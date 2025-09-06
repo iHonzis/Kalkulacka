@@ -52,18 +52,18 @@ struct AlcoholView: View {
                     self.now = Date()
                 }
             }
-            .navigationTitle("Alcohol Tracker")
+            .navigationTitle(NSLocalizedString("Alcohol Tracker", comment: ""))
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Edit") {
+                    Button(NSLocalizedString("Edit", comment: "")) {
                         showingHistory = true
                     }
                     .foregroundColor(.red)
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Me") {
+                    Button(NSLocalizedString("Me", comment: "")) {
                         showingUserProfile = true
                     }
                     .foregroundColor(.red)
@@ -98,7 +98,7 @@ struct AlcoholView: View {
                 size: 150
             )
             
-            Text("Standard Drinks")
+            Text(NSLocalizedString("Standard Drinks", comment: ""))
                 .font(.title2)
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
@@ -109,7 +109,7 @@ struct AlcoholView: View {
     private var bacDisplay: some View {
         HStack(spacing: 20) {
             VStack {
-                Text("BAC")
+                Text(NSLocalizedString("BAC", comment: ""))
                     .font(.headline)
                 Text(String(format: "%.2f", drinkStore.calculateCurrentBAC()))
                     .font(.system(size: 32, weight: .bold, design: .rounded))
@@ -120,12 +120,12 @@ struct AlcoholView: View {
             }
             
             VStack {
-                Text("Drinks")
+                Text(NSLocalizedString("Drinks", comment: ""))
                     .font(.headline)
                 Text("\(drinkStore.getTodayDrinks(for: .alcohol).count)")
                     .font(.system(size: 32, weight: .bold, design: .rounded))
                     .foregroundColor(.red)
-                Text("today")
+                Text(NSLocalizedString("today", comment: ""))
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
@@ -143,7 +143,7 @@ struct AlcoholView: View {
             HStack {
                 Image(systemName: "plus.circle.fill")
                     .font(.title2)
-                Text("Add_drink")
+                Text(NSLocalizedString("Add_drink", comment: ""))
                     .font(.headline)
             }
             .foregroundColor(.white)
@@ -157,7 +157,7 @@ struct AlcoholView: View {
     private var soberTimeDisplay: some View {
         VStack(spacing: 0) {
             VStack(spacing: 4) {
-                Text("when_off")
+                Text(NSLocalizedString("when_off", comment: ""))
                     .font(.headline)
                     .foregroundColor(.primary)
                 Text(drinkStore.getSoberTimeString())
@@ -168,7 +168,7 @@ struct AlcoholView: View {
             .frame(maxWidth: .infinity)
             .background(Color(UIColor.systemGray6))
             .cornerRadius(12)
-            Text("alc_disclaimer")
+            Text(NSLocalizedString("alc_disclaimer", comment: ""))
                 .font(.system(size: 15, weight: .medium))
                 .foregroundColor(Color(UIColor.systemGray))
                 .multilineTextAlignment(.center)

@@ -14,7 +14,7 @@ struct DrinkHistoryView: View {
             let drinks = drinkStore.getDrinks(for: drinkType)
             
             if drinks.isEmpty {
-                Text("No \(drinkType.rawValue.lowercased()) drinks recorded.")
+                Text(NSLocalizedString("No drinks recorded", comment: "").replacingOccurrences(of: "drinks", with: drinkType.rawValue.lowercased()))
                     .foregroundColor(.secondary)
                     .italic()
             } else {
@@ -29,7 +29,7 @@ struct DrinkHistoryView: View {
                         ForEach(groupedDrinks[date]!.sorted(by: { $0.timestamp > $1.timestamp })) { drink in
                             DrinkHistoryRow(drink: drink)
                                 .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                                    Button("Edit Time") {
+                                    Button(NSLocalizedString("Edit Time", comment: "")) {
                                         selectedDrink = drink
                                         selectedTime = drink.timestamp
                                         showingTimePicker = true
@@ -46,7 +46,7 @@ struct DrinkHistoryView: View {
             
             if !drinks.isEmpty {
                 Section {
-                    Button("Delete All \(drinkType.rawValue)s") {
+                    Button(NSLocalizedString("Delete All Drinks", comment: "")) {
                         showingDeleteAlert = true
                     }
                     .foregroundColor(.red)
@@ -54,7 +54,7 @@ struct DrinkHistoryView: View {
                 }
             }
         }
-        .navigationTitle("\(drinkType.rawValue) History")
+        .navigationTitle(NSLocalizedString("History", comment: "").replacingOccurrences(of: "History", with: "\(drinkType.rawValue) History"))
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 if !drinkStore.getDrinks(for: drinkType).isEmpty {
@@ -63,13 +63,13 @@ struct DrinkHistoryView: View {
                 }
             }
         }
-        .alert("Are you sure?", isPresented: $showingDeleteAlert) {
-            Button("Delete All", role: .destructive) {
+        .alert(NSLocalizedString("Are you sure?", comment: ""), isPresented: $showingDeleteAlert) {
+            Button(NSLocalizedString("Delete All", comment: ""), role: .destructive) {
                 drinkStore.removeAllDrinks(for: drinkType)
             }
-            Button("Cancel", role: .cancel) {}
+            Button(NSLocalizedString("Cancel", comment: ""), role: .cancel) {}
         } message: {
-            Text("This will permanently delete all \(drinkStore.getDrinks(for: drinkType).count) recorded \(drinkType.rawValue.lowercased()) drinks.")
+            Text(NSLocalizedString("This will permanently delete all recorded drinks", comment: "").replacingOccurrences(of: "recorded drinks", with: "\(drinkStore.getDrinks(for: drinkType).count) recorded \(drinkType.rawValue.lowercased()) drinks"))
         }
         .sheet(isPresented: $showingTimePicker) {
             TimePickerSheet(
@@ -160,12 +160,12 @@ struct TimePickerSheet: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                Text("Edit Time for \(drinkName)")
+                Text(NSLocalizedString("Edit Time for", comment: "") + " \(drinkName)")
                     .font(.headline)
                     .padding(.top)
                 
                 DatePicker(
-                    "Time",
+                    NSLocalizedString("Time", comment: ""),
                     selection: $selectedTime,
                     displayedComponents: [.date, .hourAndMinute]
                 )
@@ -174,17 +174,17 @@ struct TimePickerSheet: View {
                 
                 Spacer()
             }
-            .navigationTitle("Edit Time")
+            .navigationTitle(NSLocalizedString("Edit Time", comment: ""))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
+                    Button(NSLocalizedString("Cancel", comment: "")) {
                         onCancel()
                     }
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
+                    Button(NSLocalizedString("Save", comment: "")) {
                         onSave()
                     }
                     .fontWeight(.semibold)

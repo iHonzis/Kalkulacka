@@ -1,4 +1,4 @@
-/* 
+/*
   Localizable.strings
   Kalkulacka
 
@@ -31,3 +31,92 @@
 "of_max" = "ze %d";
 "Alcohol" = "Alkohol";
 "Caffeine" = "Kofein";
+
+"Empty" = "Efekt vyprchal";
+
+"Cancel" = "Zrušit";
+"Add Drink" = "Přidat nápoj";
+"Drink Details" = "Detaily nápoje";
+"Alcohol Content" = "Obsah alkoholu";
+"Caffeine Content" = "Obsah kofeinu";
+"Drink name" = "Název nápoje";
+"Amount" = "Množství";
+"Unit" = "Jednotka";
+"Alcohol %" = "Alkohol %";
+"Validation Error" = "Chyba validace";
+"OK" = "OK";
+"Please enter a valid amount" = "Zadejte platné množství";
+"drink_type" = "Typ nápoje";
+"Popular" = "Populární";
+"Custom" = "Vlastní";
+"Add" = "Přidat";
+"Already sober" = "Již střízlivý";
+
+"Personal Information" = "Osobní údaje";
+"Age" = "Věk";
+"years" = "let";
+"Gender" = "Pohlaví";
+"Physical Measurements" = "Fyzické údaje";
+"Weight" = "Váha";
+"Height" = "Výška";
+"Health Information" = "Zdravotní informace";
+"BMI" = "BMI";
+"BMI Category" = "Kategorie BMI";
+"Save Profile" = "Uložit profil";
+"My Profile" = "Můj profil";
+"Underweight" = "Podváha";
+"Normal" = "Normální";
+"Overweight" = "Nadváha";
+"Obese" = "Obezita";
+
+"No drinks recorded" = "Žádné nápoje nejsou zaznamenány";
+"Edit Time" = "Upravit čas";
+"Delete All" = "Smazat vše";
+"History" = "Historie";
+"Are you sure?" = "Jste si jisti?";
+"This will permanently delete all recorded drinks" = "Tímto trvale smažete všechny zaznamenané nápoje";
+"Edit Time for" = "Upravit čas pro";
+"Time" = "Čas";
+"Save" = "Uložit";
+
+"Male" = "Muž";
+"Female" = "Žena";
+
+"Delete All Drinks" = "Smazat všechny nápoje";
+
+// Alkoholické nápoje
+"Beer 10º" = "Pivo 10º";
+"Beer 11º" = "Pivo 11º";
+"Beer 12º" = "Pivo 12º";
+"Wine Glass" = "Sklenka vína";
+"Wine Bottle" = "Láhev vína";
+"Vodka" = "Vodka";
+"Champagne" = "Šampaňské";
+"Cider" = "Cider";
+"Absinth" = "Absint";
+"Gin Tonic" = "Gin Tonic";
+"Moscow Mule" = "Moskevská Mula";
+"Cuba Libre" = "Cuba Libre";
+"Mojito" = "Mojito";
+"Whiskey" = "Whiskey";
+"Rum" = "Rum";
+"Green" = "Zelená";
+"Jägermeister" = "Jägermeister";
+"B Lemond" = "B Lemond";
+
+// Kofeinové nápoje
+"Red Bull" = "Red Bull";
+"Monster" = "Monster";
+"Monster Ultra" = "Monster Ultra";
+"Crazy Wolf" = "Crazy Wolf";
+"Tiger" = "Tiger";
+"Rockstar" = "Rockstar";
+"Big Shock" = "Big Shock";
+"Espresso" = "Espresso";
+"Double Espresso" = "Dvojité espresso";
+"Cappuccino" = "Cappuccino";
+"Caffe Latte" = "Caffè Latte";
+"Flat White" = "Flat White";
+"Green Tea" = "Zelený čaj";
+"Black Tea" = "Černý čaj";
+"Americano" = "Americano";

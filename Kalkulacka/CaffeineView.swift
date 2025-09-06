@@ -54,17 +54,17 @@ struct CaffeineView: View {
                     self.now = Date()
                 }
             }
-            .navigationTitle("title_caffeine")
+            .navigationTitle(NSLocalizedString("title_caffeine", comment: ""))
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Edit") {
+                    Button(NSLocalizedString("Edit", comment: "")) {
                         showingHistory = true
                     }
                     .foregroundColor(.orange)
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Me") {
+                    Button(NSLocalizedString("Me", comment: "")) {
                         showingUserProfile = true
                     }
                     .foregroundColor(.orange)
@@ -99,7 +99,7 @@ struct CaffeineView: View {
                 size: 150
             )
             
-            Text("Caffeine_(mg)")
+            Text(NSLocalizedString("Caffeine_(mg)", comment: ""))
                 .font(.title2)
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
@@ -109,7 +109,7 @@ struct CaffeineView: View {
     
     private var cleanTimeDisplay: some View {
         VStack(spacing: 4) {
-            Text("when_off")
+            Text(NSLocalizedString("when_off", comment: ""))
                 .font(.headline)
                 .foregroundColor(.primary)
             Text(drinkStore.getCleanTimeString())
@@ -129,7 +129,7 @@ struct CaffeineView: View {
             HStack {
                 Image(systemName: "plus.circle.fill")
                     .font(.title2)
-                Text("Add_drink")
+                Text(NSLocalizedString("Add_drink", comment: ""))
                     .font(.headline)
             }
             .foregroundColor(.white)
@@ -143,7 +143,7 @@ struct CaffeineView: View {
     private var todaySummary: some View {
         VStack(spacing: 0){
             VStack(spacing: 8) {
-                Text("summary_title")
+                Text(NSLocalizedString("summary_title", comment: ""))
                     .font(.headline)
                     .foregroundColor(.primary)
                 HStack(spacing: 20) {
@@ -152,7 +152,7 @@ struct CaffeineView: View {
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(.orange)
-                        Text("mg_active")
+                        Text(NSLocalizedString("mg_active", comment: ""))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -161,7 +161,7 @@ struct CaffeineView: View {
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(.orange)
-                        Text("drinks")
+                        Text(NSLocalizedString("drinks", comment: ""))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -171,7 +171,7 @@ struct CaffeineView: View {
             .frame(maxWidth: .infinity)
             .background(Color(UIColor.systemGray6))
             .cornerRadius(12)
-            Text("caffeine_disclaimer")
+            Text(NSLocalizedString("caffeine_disclaimer", comment: ""))
                 .font(.system(size: 15, weight: .medium))
                 .foregroundColor(Color(UIColor.systemGray))
                 .multilineTextAlignment(.center)
