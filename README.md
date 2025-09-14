@@ -1,4 +1,4 @@
-# Holesovice Tracker
+# Alcohol and Caffeine Tracker
 
 A beautiful iOS app for tracking alcohol and caffeine consumption with Apple Watch-style activity rings and blood alcohol content calculation.
 
