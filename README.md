@@ -1,6 +1,6 @@
 # Alcohol and Caffeine Tracker
 
-A beautiful iOS app for tracking alcohol and caffeine consumption with Apple Watch-style activity rings and blood alcohol content calculation.
+An iOS app for tracking alcohol and caffeine consumption with Apple Watch-style rings and blood alcohol content calculation.
 
 ## Features
 
@@ -26,7 +26,7 @@ A beautiful iOS app for tracking alcohol and caffeine consumption with Apple Wat
 - Gender-specific alcohol distribution factors
 - Automatic alcohol metabolism calculation
 
-### 🎨 Beautiful UI
+### 🎨 Modern UI
 - Modern SwiftUI interface
 - Apple Watch-inspired activity rings
 - Tab-based navigation
@@ -65,7 +65,7 @@ The app uses the **Widmark formula** to calculate blood alcohol content:
 BAC = (Alcohol in grams / (Body weight in grams × Distribution factor)) × 100
 ```
 
-- **Distribution factors**: Male (0.68), Female (0.55), Other (0.61)
+- **Distribution factors**: Male (0.68), Female (0.55), Other (0.61, but hiddden in UI)
 - **Alcohol metabolism**: Subtracts 0.015% per hour since first drink
 - **Real-time updates**: BAC changes as you add drinks and time passes
 
