@@ -120,3 +120,7 @@
 "Green Tea" = "Zelený čaj";
 "Black Tea" = "Černý čaj";
 "Americano" = "Americano";
+
+"Drink size must be greater than 0" = "Velikost nápoje musí být větší než 0";
+"Alcohol percentage cannot be negative" = "Procento alkoholu nemůže být záporné";
+"Alcohol percentage cannot exceed %@%" = "Procento alkoholu nemůže překročit %@%";

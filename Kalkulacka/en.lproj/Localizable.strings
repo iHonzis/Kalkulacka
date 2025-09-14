@@ -120,3 +120,7 @@
 "Green Tea" = "Green Tea";
 "Black Tea" = "Black Tea";
 "Americano" = "Americano";
+
+"Drink size must be greater than 0" = "Drink size must be greater than 0";
+"Alcohol percentage cannot be negative" = "Alcohol percentage cannot be negative";
+"Alcohol percentage cannot exceed %@%" = "Alcohol percentage cannot exceed %@%";

@@ -137,7 +137,7 @@ class DrinkStore: ObservableObject {
         }
         
         if amountInML <= 0 {
-            return "Drink size must be greater than 0"
+            return NSLocalizedString("Drink size must be greater than 0", comment: "")
         }
         
         return nil
@@ -146,11 +146,11 @@ class DrinkStore: ObservableObject {
     /// Validates alcohol percentage and returns error message if invalid
     func validateAlcoholPercentage(_ percentage: Double) -> String? {
         if percentage > maxAlcoholPercentage {
-            return "Alcohol percentage cannot exceed \(String(format: "%.0f", maxAlcoholPercentage))%"
+            return NSLocalizedString("Alcohol percentage cannot exceed %@%", comment: "").replacingOccurrences(of: "%@", with: String(format: "%.0f", maxAlcoholPercentage))
         }
         
         if percentage < 0 {
-            return "Alcohol percentage cannot be negative"
+            return NSLocalizedString("Alcohol percentage cannot be negative", comment: "")
         }
         
         return nil
