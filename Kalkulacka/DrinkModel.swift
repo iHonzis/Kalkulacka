@@ -159,11 +159,11 @@ class DrinkStore: ObservableObject {
     /// Validates caffeine content and returns error message if invalid
     func validateCaffeineContent(_ caffeine: Double) -> String? {
         if caffeine > maxCaffeineContent {
-            return "Caffeine content cannot exceed \(String(format: "%.0f", maxCaffeineContent))mg"
+            return NSLocalizedString("Caffeine content cannot exceed %@mg", comment: "").replacingOccurrences(of: "%@", with: String(format: "%.0f", maxCaffeineContent))
         }
         
         if caffeine < 0 {
-            return "Caffeine content cannot be negative"
+            return NSLocalizedString("Caffeine content cannot be negative", comment: "")
         }
         
         return nil

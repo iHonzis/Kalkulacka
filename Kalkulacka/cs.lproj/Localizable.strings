@@ -124,3 +124,5 @@
 "Drink size must be greater than 0" = "Velikost nápoje musí být větší než 0";
 "Alcohol percentage cannot be negative" = "Procento alkoholu nemůže být záporné";
 "Alcohol percentage cannot exceed %@%" = "Procento alkoholu nemůže překročit %@%";
+"Caffeine content cannot exceed %@mg" = "Obsah kofeinu nemůže překročit %@mg";
+"Caffeine content cannot be negative" = "Obsah kofeinu nemůže být záporný";
