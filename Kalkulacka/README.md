@@ -1,6 +1,6 @@
-# Holesovice Tracker
+# AlCaf Tracker
 
-A beautiful iOS app for tracking alcohol and caffeine consumption with Apple Watch-style activity rings and blood alcohol content calculation.
+An iOS app for tracking alcohol and caffeine consumption with Apple Watch-style rings and blood alcohol content calculation.
 
 ## Features
 
@@ -26,7 +26,7 @@ A beautiful iOS app for tracking alcohol and caffeine consumption with Apple Wat
 - Gender-specific alcohol distribution factors
 - Automatic alcohol metabolism calculation
 
-### 🎨 Beautiful UI
+### 🎨 Modern UI
 - Modern SwiftUI interface
 - Apple Watch-inspired activity rings
 - Tab-based navigation

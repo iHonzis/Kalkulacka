@@ -3,7 +3,7 @@
 //  Kalkulacka
 //
 //  Created by Jan Hes on 21.06.2025.
-//
+// code review from here, TODO warnings
 
 import SwiftUI
 import SwiftData
