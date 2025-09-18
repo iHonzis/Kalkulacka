@@ -3,7 +3,7 @@
 //  Kalkulacka
 //
 //  Created by Jan Hes on 21.06.2025.
-// code review from here, TODO warnings
+//  TODO warnings, jazyk-jméno a lockscreen zkratky, ikona, zaoblení,odečet kroužků
 
 import SwiftUI
 import SwiftData

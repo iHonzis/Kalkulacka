@@ -14,7 +14,7 @@ struct UserProfileView: View {
             Form {
                 Section(NSLocalizedString("Personal Information", comment: "")) {
                     Picker(NSLocalizedString("Age", comment: ""), selection: $age) {
-                        ForEach(18...122, id: \.self) { ageValue in
+                        ForEach(16...122, id: \.self) { ageValue in
                             Text("\(ageValue) \(NSLocalizedString("years", comment: ""))")
                                 .tag(Double(ageValue))
                         }
@@ -102,7 +102,7 @@ struct UserProfileView: View {
     private func saveProfile() {
         // Validate required input
         let ageValue = Int(age)
-        guard ageValue >= 18 && ageValue <= 122,
+        guard ageValue >= 16 && ageValue <= 122,
               let heightValue = Double(height), heightValue > 0, heightValue < 300 else {
             return
         }
