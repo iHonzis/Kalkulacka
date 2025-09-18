@@ -14,7 +14,7 @@ struct AlcoholView: View {
     private let maxStandardDrinks = 4.0 // Recommended daily limit
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             GeometryReader { geometry in
                 ScrollView {
                     VStack { // Main container
@@ -42,9 +42,7 @@ struct AlcoholView: View {
                                 soberTimeDisplay
                             }
                         }
-                        
-                        // Hidden navigation link, shared by both layouts
-                        historyLink
+                        // No hidden navigation link needed
                     }
                     .padding()
                 }
@@ -75,7 +73,10 @@ struct AlcoholView: View {
             .sheet(isPresented: $showingAddDrink) {
                 DrinkEntryView(drinkStore: drinkStore, drinkType: .alcohol)
             }
-            .onChange(of: triggerAdd) { newValue in
+            .navigationDestination(isPresented: $showingHistory) {
+                DrinkHistoryView(drinkStore: drinkStore, drinkType: .alcohol)
+            }
+            .onChange(of: triggerAdd) { oldValue, newValue in
                 if newValue {
                     showingAddDrink = true
                     triggerAdd = false
@@ -177,11 +178,7 @@ struct AlcoholView: View {
         }
     }
     
-    private var historyLink: some View {
-        NavigationLink(destination: DrinkHistoryView(drinkStore: drinkStore, drinkType: .alcohol), isActive: $showingHistory) {
-            EmptyView()
-        }
-    }
+    // Removed deprecated historyLink
     
     private func ringColor(for drinks: Double) -> Color {
         let percentage = drinks / maxStandardDrinks

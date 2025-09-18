@@ -16,7 +16,7 @@ struct CaffeineView: View {
     private let maxCaffeine = 400.0 // Recommended daily limit in mg
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             GeometryReader { geometry in
                 ScrollView {
                     VStack { // Main container
@@ -44,9 +44,6 @@ struct CaffeineView: View {
                                 todaySummary
                             }
                         }
-                        
-                        // Hidden navigation link, shared by both layouts
-                        historyLink
                     }
                     .padding()
                 }
@@ -76,11 +73,15 @@ struct CaffeineView: View {
             .sheet(isPresented: $showingAddDrink) {
                 DrinkEntryView(drinkStore: drinkStore, drinkType: .caffeine)
             }
-            .onChange(of: triggerAdd) { newValue in
+            .onChange(of: triggerAdd) { oldValue, newValue in
                 if newValue {
                     showingAddDrink = true
                     triggerAdd = false
                 }
+            }
+            // NEW: Replace deprecated NavigationLink with navigationDestination
+            .navigationDestination(isPresented: $showingHistory) {
+                DrinkHistoryView(drinkStore: drinkStore, drinkType: .caffeine)
             }
         }
         .onReceive(timer) { input in
@@ -179,12 +180,6 @@ struct CaffeineView: View {
                 .padding(.horizontal, 8)
         }
     }
-    
-    private var historyLink: some View {
-        NavigationLink(destination: DrinkHistoryView(drinkStore: drinkStore, drinkType: .caffeine), isActive: $showingHistory) {
-            EmptyView()
-        }
-    }
 }
 
 struct CaffeineView_Previews: PreviewProvider {
@@ -192,3 +187,4 @@ struct CaffeineView_Previews: PreviewProvider {
         CaffeineView(drinkStore: DrinkStore(), triggerAdd: .constant(false))
     }
 } 
+
