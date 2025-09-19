@@ -53,20 +53,6 @@ struct CaffeineView: View {
             }
             .navigationTitle(NSLocalizedString("title_caffeine", comment: ""))
             .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(NSLocalizedString("Edit", comment: "")) {
-                        showingHistory = true
-                    }
-                    .foregroundColor(.orange)
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(NSLocalizedString("Me", comment: "")) {
-                        showingUserProfile = true
-                    }
-                    .foregroundColor(.orange)
-                }
-            }
             .sheet(isPresented: $showingUserProfile) {
                 UserProfileView(drinkStore: drinkStore)
             }
@@ -119,8 +105,16 @@ struct CaffeineView: View {
         }
         .padding()
         .frame(maxWidth: .infinity)
-        .background(Color(UIColor.systemGray6))
-        .cornerRadius(12)
+        .background(
+            Color(UIColor.systemGray5),
+            in: RoundedRectangle(cornerRadius: 28, style: .continuous)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 28, style: .continuous)
+                .stroke(Color.white.opacity(0.10), lineWidth: 1)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+        .shadow(color: Color.black.opacity(0.08), radius: 8, x: 0, y: 4)
     }
     
     private var addDrinkButton: some View {
@@ -136,8 +130,15 @@ struct CaffeineView: View {
             .foregroundColor(.white)
             .padding()
             .frame(maxWidth: .infinity)
-            .background(Color.orange)
-            .cornerRadius(12)
+            .background(
+                RoundedRectangle(cornerRadius: 28, style: .continuous)
+                    .fill(Color.red)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 28, style: .continuous)
+                    .stroke(Color.white.opacity(0.10), lineWidth: 1)
+            )
+            .shadow(color: Color.black.opacity(0.10), radius: 8, x: 0, y: 4)
         }
     }
     
@@ -170,8 +171,16 @@ struct CaffeineView: View {
             }
             .padding()
             .frame(maxWidth: .infinity)
-            .background(Color(UIColor.systemGray6))
-            .cornerRadius(12)
+            .background(
+                Color(UIColor.systemGray5),
+                in: RoundedRectangle(cornerRadius: 28, style: .continuous)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 28, style: .continuous)
+                    .stroke(Color.white.opacity(0.10), lineWidth: 1)
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+            .shadow(color: Color.black.opacity(0.08), radius: 8, x: 0, y: 4)
             Text(NSLocalizedString("caffeine_disclaimer", comment: ""))
                 .font(.system(size: 15, weight: .medium))
                 .foregroundColor(Color(UIColor.systemGray))
