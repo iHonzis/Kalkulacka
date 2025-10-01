@@ -126,3 +126,5 @@
 "Alcohol percentage cannot exceed %@%" = "Procento alkoholu nemůže překročit %@%";
 "Caffeine content cannot exceed %@mg" = "Obsah kofeinu nemůže překročit %@mg";
 "Caffeine content cannot be negative" = "Obsah kofeinu nemůže být záporný";
+
+"Report feedback" = "Nahlásit chybu";

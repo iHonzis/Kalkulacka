@@ -68,6 +68,14 @@ struct UserProfileView: View {
                         }
                     }
                 }
+                
+                // Feedback button section
+                Section {
+                    Button(NSLocalizedString("Report feedback", comment: "")) {
+                        sendFeedbackEmail()
+                    }
+                    .foregroundColor(.accentColor)
+                }
             }
             .navigationTitle(NSLocalizedString("My Profile", comment: ""))
             .navigationBarTitleDisplayMode(.inline)
@@ -87,6 +95,20 @@ struct UserProfileView: View {
             .onAppear {
                 loadCurrentProfile()
             }
+        }
+    }
+    
+    private func sendFeedbackEmail() {
+        let subject = "AlCaf feedback"
+        let email = "hesja1@uhk.cz"
+        let encodedSubject = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? subject
+        let urlString = "mailto:\(email)?subject=\(encodedSubject)"
+        if let url = URL(string: urlString) {
+            #if os(iOS)
+            UIApplication.shared.open(url)
+            #elseif os(macOS)
+            NSWorkspace.shared.open(url)
+            #endif
         }
     }
     

@@ -126,3 +126,5 @@
 "Alcohol percentage cannot exceed %@%" = "Alcohol percentage cannot exceed %@%";
 "Caffeine content cannot exceed %@mg" = "Caffeine content cannot exceed %@mg";
 "Caffeine content cannot be negative" = "Caffeine content cannot be negative";
+
+"Report feedback" = "Report feedback";
