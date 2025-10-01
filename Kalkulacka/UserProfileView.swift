@@ -68,13 +68,6 @@ struct UserProfileView: View {
                         }
                     }
                 }
-                
-                Section {
-                    Button(NSLocalizedString("Save Profile", comment: "")) {
-                        saveProfile()
-                    }
-                    .disabled(height.isEmpty || (Double(weight) ?? 0) <= 0)
-                }
             }
             .navigationTitle(NSLocalizedString("My Profile", comment: ""))
             .navigationBarTitleDisplayMode(.inline)
@@ -83,6 +76,12 @@ struct UserProfileView: View {
                     Button(NSLocalizedString("Cancel", comment: "")) {
                         dismiss()
                     }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(NSLocalizedString("Save", comment: "")) {
+                        saveProfile()
+                    }
+                    .disabled(height.isEmpty || (Double(weight) ?? 0) <= 0)
                 }
             }
             .onAppear {
