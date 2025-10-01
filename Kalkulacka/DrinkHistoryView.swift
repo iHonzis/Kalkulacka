@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct DrinkHistoryView: View {
+    @Environment(\.dismiss) private var dismiss
     @ObservedObject var drinkStore: DrinkStore
     let drinkType: DrinkType
     @State private var isEditing = false
@@ -55,7 +56,13 @@ struct DrinkHistoryView: View {
             }
         }
         .navigationTitle(NSLocalizedString("History", comment: "").replacingOccurrences(of: "History", with: "\(drinkType.rawValue) History"))
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(NSLocalizedString("Cancel", comment: "")) {
+                    dismiss()
+                }
+            }
             ToolbarItem(placement: .navigationBarTrailing) {
                 if !drinkStore.getDrinks(for: drinkType).isEmpty {
                     EditButton()
@@ -200,4 +207,4 @@ struct DrinkHistoryView_Previews: PreviewProvider {
             DrinkHistoryView(drinkStore: DrinkStore(), drinkType: .alcohol)
         }
     }
-} 
+}

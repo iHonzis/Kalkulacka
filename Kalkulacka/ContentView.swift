@@ -103,7 +103,9 @@ struct ContentView: View {
             UserProfileView(drinkStore: drinkStore)
         }
         .sheet(isPresented: $showingHistory) {
-            DrinkHistoryView(drinkStore: drinkStore, drinkType: currentDrinkType)
+            NavigationView {
+                DrinkHistoryView(drinkStore: drinkStore, drinkType: currentDrinkType)
+            }
         }
     }
 }
