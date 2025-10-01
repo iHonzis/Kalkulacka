@@ -12,6 +12,11 @@ struct ContentView: View {
     let tabBarHeight: CGFloat = 83
     let buttonHeight: CGFloat = 55
 
+    /// Computes the current drink type based on the selected tab (0: alcohol, 1: caffeine)
+    private var currentDrinkType: DrinkType {
+        shortcutManager.shouldNavigateToTab == 1 ? .caffeine : .alcohol
+    }
+
     var body: some View {
         ZStack {
             TabView(selection: Binding(
@@ -66,9 +71,9 @@ struct ContentView: View {
                             .overlay(
                                 Image(systemName: "line.3.horizontal")
                                     .font(.system(size: 22, weight: .medium))
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.primary) // Adapt to light/dark mode
                             )
-                            .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
+                            .shadow(color: Color.primary.opacity(0.15), radius: 8, x: 0, y: 4)
                     }
                     .accessibilityLabel(Text(NSLocalizedString("Edit", comment: "")))
                     .padding(.leading, 40)
@@ -84,9 +89,9 @@ struct ContentView: View {
                             .overlay(
                                 Image(systemName: "person.crop.circle")
                                     .font(.system(size: 22, weight: .medium))
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.primary) // Adapt to light/dark mode
                             )
-                            .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
+                            .shadow(color: Color.primary.opacity(0.15), radius: 8, x: 0, y: 4)
                     }
                     .accessibilityLabel(Text(NSLocalizedString("Me", comment: "")))
                     .padding(.trailing, 40)
@@ -98,7 +103,7 @@ struct ContentView: View {
             UserProfileView(drinkStore: drinkStore)
         }
         .sheet(isPresented: $showingHistory) {
-            DrinkHistoryView(drinkStore: drinkStore, drinkType: .alcohol)
+            DrinkHistoryView(drinkStore: drinkStore, drinkType: currentDrinkType)
         }
     }
 }
@@ -107,5 +112,9 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
             .environmentObject(ShortcutManager())
+            .preferredColorScheme(.dark) // Preview in dark mode as well
+        ContentView()
+            .environmentObject(ShortcutManager())
+            .preferredColorScheme(.light) // Preview in light mode
     }
 }
