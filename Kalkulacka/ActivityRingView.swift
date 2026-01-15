@@ -7,7 +7,7 @@ struct ActivityRingView: View {
     let size: CGFloat
     
     private var percentage: Double {
-        min(progress / maxValue, 1.0)
+        max(1.0 - (progress / maxValue), 0.0)
     }
     
     init(progress: Double, maxValue: Double, color: Color, size: CGFloat = 120) {

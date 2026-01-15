@@ -2,8 +2,7 @@
 //  KalkulackaApp.swift
 //  Kalkulacka
 //
-//  Created by Jan Hes on 21.06.2025.
-//  TODO odečet kroužků
+//  Created by Jan Hes on 21.06.2025
 
 import SwiftUI
 import SwiftData
