@@ -57,7 +57,9 @@ struct CaffeineView: View {
                 UserProfileView(drinkStore: drinkStore)
             }
             .sheet(isPresented: $showingAddDrink) {
-                DrinkEntryView(drinkStore: drinkStore, drinkType: .caffeine)
+                NavigationStack {
+                    DrinkEntryView(drinkStore: drinkStore, drinkType: .caffeine)
+                }
             }
             .onChange(of: triggerAdd) { oldValue, newValue in
                 if newValue {

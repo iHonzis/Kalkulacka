@@ -99,7 +99,7 @@ struct DrinkEntryView: View {
                 }
             }
         }
-        .navigationTitle("\(NSLocalizedString("Add", comment: "")) \(drinkType.rawValue)")
+        .navigationTitle("\(NSLocalizedString("Add", comment: "")) \(NSLocalizedString(drinkType.rawValue, comment: ""))")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {

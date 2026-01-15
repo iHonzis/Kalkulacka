@@ -56,7 +56,9 @@ struct AlcoholView: View {
                 UserProfileView(drinkStore: drinkStore)
             }
             .sheet(isPresented: $showingAddDrink) {
-                DrinkEntryView(drinkStore: drinkStore, drinkType: .alcohol)
+                NavigationStack {
+                    DrinkEntryView(drinkStore: drinkStore, drinkType: .alcohol)
+                }
             }
             .navigationDestination(isPresented: $showingHistory) {
                 DrinkHistoryView(drinkStore: drinkStore, drinkType: .alcohol)
