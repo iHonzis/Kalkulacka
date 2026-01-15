@@ -1,0 +1,15 @@
+/* 
+  InfoPlist.strings
+  Kalkulacka
+
+  English localization for Info.plist
+*/
+
+"CFBundleDisplayName" = "AlCaf Tracker";
+"CFBundleName" = "AlCaf Tracker";
+
+// App Shortcuts
+"ShortcutLogAlcoholTitle" = "Log Alcohol";
+"ShortcutLogAlcoholSubtitle" = "Quickly log an alcoholic drink";
+"ShortcutLogCaffeineTitle" = "Log Caffeine";
+"ShortcutLogCaffeineSubtitle" = "Quickly log a caffeinated drink";

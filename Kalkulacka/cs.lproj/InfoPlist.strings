@@ -1,0 +1,15 @@
+/* 
+  InfoPlist.strings
+  Kalkulacka
+
+  Czech localization for Info.plist
+*/
+
+"CFBundleDisplayName" = "Kalkulačka";
+"CFBundleName" = "Kalkulačka";
+
+// App Shortcuts
+"ShortcutLogAlcoholTitle" = "Zapsat Alkohol";
+"ShortcutLogAlcoholSubtitle" = "Rychle zapsat alkoholický nápoj";
+"ShortcutLogCaffeineTitle" = "Zapsat Kofein";
+"ShortcutLogCaffeineSubtitle" = "Rychle zapsat kofeinový nápoj";

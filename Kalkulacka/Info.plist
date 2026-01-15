@@ -7,9 +7,9 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<string>CFBundleName</string>
 	<key>CFBundleDisplayName</key>
-	<string>Kalkulacka</string>
+	<string>CFBundleDisplayName</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>CFBundleShortVersionString</key>
@@ -20,21 +20,21 @@
 			<key>UIApplicationShortcutItemType</key>
 			<string>log-alcohol</string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>Log Alcohol</string>
+			<string>ShortcutLogAlcoholTitle</string>
 			<key>UIApplicationShortcutItemIconSymbolName</key>
 			<string>wineglass</string>
 			<key>UIApplicationShortcutItemSubtitle</key>
-			<string>Quickly log an alcoholic drink</string>
+			<string>ShortcutLogAlcoholSubtitle</string>
 		</dict>
 		<dict>
 			<key>UIApplicationShortcutItemType</key>
 			<string>log-caffeine</string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>Log Caffeine</string>
+			<string>ShortcutLogCaffeineTitle</string>
 			<key>UIApplicationShortcutItemIconSymbolName</key>
 			<string>cup.and.saucer</string>
 			<key>UIApplicationShortcutItemSubtitle</key>
-			<string>Quickly log a caffeinated drink</string>
+			<string>ShortcutLogCaffeineSubtitle</string>
 		</dict>
 	</array>
 	<key>UIApplicationSceneManifest</key>
