@@ -1,18 +1,9 @@
 import SwiftUI
 
-struct PopularDrinkData: Identifiable {
-    let id = UUID()
-    let name: String
-    let imageName: String
-    let volume: Double // in ml
-    let drinkType: DrinkType
-    var alcoholPercentage: Double? // in %
-    var caffeineContent: Double? // in mg
-}
-
 struct DrinkEntryView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var drinkStore: DrinkStore
+    @ObservedObject private var drinksService = PopularDrinksService.shared
     
     let drinkType: DrinkType
     
@@ -24,59 +15,16 @@ struct DrinkEntryView: View {
     @State private var caffeineContent = ""
     @State private var errorMessage = ""
     @State private var showingError = false
+    @State private var isRefreshing = false
     
     // State for segmented picker
     @State private var selectedTab = 0
     private let tabs = [NSLocalizedString("Popular", comment: ""), NSLocalizedString("Custom", comment: "")]
     
-    private let popularDrinks: [PopularDrinkData]
-    private let units = ["ml", "oz", "cl", "fl oz"]
-    
-    init(drinkStore: DrinkStore, drinkType: DrinkType) {
-        self.drinkStore = drinkStore
-        self.drinkType = drinkType
-        
-        let allPopularDrinks: [PopularDrinkData] = [
-            // Alcohol
-            .init(name: NSLocalizedString("Beer 10º", comment: ""), imageName: "gambrinus", volume: 500, drinkType: .alcohol, alcoholPercentage: 4.1),
-            .init(name: NSLocalizedString("Beer 11º", comment: ""), imageName: "kozel", volume: 500, drinkType: .alcohol, alcoholPercentage: 4.6),
-            .init(name: NSLocalizedString("Beer 12º", comment: ""), imageName: "radegast", volume: 500, drinkType: .alcohol, alcoholPercentage: 5.1),
-            .init(name: NSLocalizedString("Wine Glass", comment: ""), imageName: "wine_glass", volume: 200, drinkType: .alcohol, alcoholPercentage: 14.0),
-            .init(name: NSLocalizedString("Wine Bottle", comment: ""), imageName: "wine_bottle", volume: 750, drinkType: .alcohol, alcoholPercentage: 14.0),
-            .init(name: NSLocalizedString("Vodka", comment: ""), imageName: "vodka", volume: 40, drinkType: .alcohol, alcoholPercentage: 40.0),
-            .init(name: NSLocalizedString("Champagne", comment: ""), imageName: "champagne", volume: 150, drinkType: .alcohol, alcoholPercentage: 11.0),
-            .init(name: NSLocalizedString("Cider", comment: ""), imageName: "cider", volume: 400, drinkType: .alcohol, alcoholPercentage: 4.5),
-            .init(name: NSLocalizedString("Absinth", comment: ""), imageName: "absinth", volume: 40, drinkType: .alcohol, alcoholPercentage: 70.0),
-            .init(name: NSLocalizedString("Gin Tonic", comment: ""), imageName: "gin_tonic", volume: 250, drinkType: .alcohol, alcoholPercentage: 11.0),
-            .init(name: NSLocalizedString("Moscow Mule", comment: ""), imageName: "moscow_mule", volume: 200, drinkType: .alcohol, alcoholPercentage: 10.0),
-            .init(name: NSLocalizedString("Cuba Libre", comment: ""), imageName: "cuba_libre", volume: 200, drinkType: .alcohol, alcoholPercentage: 11.0),
-            .init(name: NSLocalizedString("Mojito", comment: ""), imageName: "mojito", volume: 250, drinkType: .alcohol, alcoholPercentage: 9.0),
-            .init(name: NSLocalizedString("Whiskey", comment: ""), imageName: "whiskey", volume: 40, drinkType: .alcohol, alcoholPercentage: 45.0),
-            .init(name: NSLocalizedString("Rum", comment: ""), imageName: "rum", volume: 40, drinkType: .alcohol, alcoholPercentage: 40.0),
-            .init(name: NSLocalizedString("Green", comment: ""), imageName: "green", volume: 40, drinkType: .alcohol, alcoholPercentage: 20.0),
-            .init(name: NSLocalizedString("Jägermeister", comment: ""), imageName: "jager", volume: 40, drinkType: .alcohol, alcoholPercentage: 35.0),
-            .init(name: NSLocalizedString("B Lemond", comment: ""), imageName: "lemond", volume: 40, drinkType: .alcohol, alcoholPercentage: 20.0),
-            
-            // Caffeine
-            .init(name: NSLocalizedString("Red Bull", comment: ""), imageName: "red_bull", volume: 250, drinkType: .caffeine, caffeineContent: 80),
-            .init(name: NSLocalizedString("Monster", comment: ""), imageName: "monster", volume: 500, drinkType: .caffeine, caffeineContent: 160),
-            .init(name: NSLocalizedString("Monster Ultra", comment: ""), imageName: "monster_ultra", volume: 500, drinkType: .caffeine, caffeineContent: 150),
-            .init(name: NSLocalizedString("Crazy Wolf", comment: ""), imageName: "crazy_wolf", volume: 500, drinkType: .caffeine, caffeineContent: 150),
-            .init(name: NSLocalizedString("Tiger", comment: ""), imageName: "tiger", volume: 250, drinkType: .caffeine, caffeineContent: 80),
-            .init(name: NSLocalizedString("Rockstar", comment: ""), imageName: "rockstar", volume: 500, drinkType: .caffeine, caffeineContent: 160),
-            .init(name: NSLocalizedString("Big Shock", comment: ""), imageName: "big_shock", volume: 500, drinkType: .caffeine, caffeineContent: 160),
-            .init(name: NSLocalizedString("Espresso", comment: ""), imageName: "espresso", volume: 30, drinkType: .caffeine, caffeineContent: 70),
-            .init(name: NSLocalizedString("Double Espresso", comment: ""), imageName: "double_espresso", volume: 60, drinkType: .caffeine, caffeineContent: 140),
-            .init(name: NSLocalizedString("Cappuccino", comment: ""), imageName: "cappuccino", volume: 170, drinkType: .caffeine, caffeineContent: 70),
-            .init(name: NSLocalizedString("Caffe Latte", comment: ""), imageName: "latte", volume: 220, drinkType: .caffeine, caffeineContent: 70),
-            .init(name: NSLocalizedString("Flat White", comment: ""), imageName: "flat_white", volume: 170, drinkType: .caffeine, caffeineContent: 100),
-            .init(name: NSLocalizedString("Green Tea", comment: ""), imageName: "greeen", volume: 300, drinkType: .caffeine, caffeineContent: 40),
-            .init(name: NSLocalizedString("Black Tea", comment: ""), imageName: "black", volume: 300, drinkType: .caffeine, caffeineContent: 70),
-            .init(name: NSLocalizedString("Americano", comment: ""), imageName: "kafe", volume: 200, drinkType: .caffeine, caffeineContent: 71)
-        ]
-        
-        self.popularDrinks = allPopularDrinks.filter { $0.drinkType == drinkType }
+    private var popularDrinks: [PopularDrinkData] {
+        drinksService.getPopularDrinks(for: drinkType)
     }
+    private let units = ["ml", "oz", "cl", "fl oz"]
     
     var body: some View {
         VStack {
@@ -146,6 +94,9 @@ struct DrinkEntryView: View {
                     }
                     .padding()
                 }
+                .refreshable {
+                    await refreshDrinks()
+                }
             }
         }
         .navigationTitle("\(NSLocalizedString("Add", comment: "")) \(drinkType.rawValue)")
@@ -162,6 +113,22 @@ struct DrinkEntryView: View {
         } message: {
             Text(errorMessage)
         }
+        .onAppear {
+            // Refresh drinks when view appears (if Convex enabled and cache expired)
+            Task {
+                await drinksService.refreshIfNeeded()
+            }
+        }
+        .onChange(of: drinksService.drinks.count) { oldCount, newCount in
+            print("🔄 DrinkEntryView: Drinks count changed from \(oldCount) to \(newCount)")
+            // Force view update
+        }
+    }
+    
+    private func refreshDrinks() async {
+        isRefreshing = true
+        await drinksService.forceRefresh()
+        isRefreshing = false
     }
     
     private func addPopularDrink(_ popularDrink: PopularDrinkData) {

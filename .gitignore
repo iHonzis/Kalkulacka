@@ -1,0 +1,13 @@
+# Convex
+.env.local
+node_modules/
+convex/_generated/
+
+# macOS
+.DS_Store
+
+# Xcode
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+DerivedData/
+*.xcworkspace/xcuserdata/

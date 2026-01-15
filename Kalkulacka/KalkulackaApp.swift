@@ -53,6 +53,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         if let shortcutItem = launchOptions?[.shortcutItem] as? UIApplicationShortcutItem {
             ShortcutManager.shared.handleShortcut(shortcutItem.type)
         }
+        
+        // Refresh drinks from Convex if needed (runs in background)
+        Task {
+            await PopularDrinksService.shared.refreshIfNeeded()
+        }
+        
         return true
     }
     

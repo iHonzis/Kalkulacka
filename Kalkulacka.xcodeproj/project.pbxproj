@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		DA107CA02F18372500C6869C /* ConvexMobile in Frameworks */ = {isa = PBXBuildFile; productRef = DA107C9F2F18372500C6869C /* ConvexMobile */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		DA673EDE2E06BAAF00BBCD45 /* Kalkulacka.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kalkulacka.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA107CA02F18372500C6869C /* ConvexMobile in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 			);
 			name = Kalkulacka;
 			packageProductDependencies = (
+				DA107C9F2F18372500C6869C /* ConvexMobile */,
 			);
 			productName = Kalkulacka;
 			productReference = DA673EDE2E06BAAF00BBCD45 /* Kalkulacka.app */;
@@ -108,6 +114,9 @@
 			);
 			mainGroup = DA673ED52E06BAAF00BBCD45;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				DA107C9E2F18372500C6869C /* XCRemoteSwiftPackageReference "convex-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DA673EDF2E06BAAF00BBCD45 /* Products */;
 			projectDirPath = "";
@@ -367,6 +376,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DA107C9E2F18372500C6869C /* XCRemoteSwiftPackageReference "convex-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/get-convex/convex-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DA107C9F2F18372500C6869C /* ConvexMobile */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA107C9E2F18372500C6869C /* XCRemoteSwiftPackageReference "convex-swift" */;
+			productName = ConvexMobile;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DA673ED62E06BAAF00BBCD45 /* Project object */;
 }
