@@ -174,8 +174,8 @@ class PopularDrinksService: ObservableObject {
             .init(name: NSLocalizedString("Green Tea", comment: ""), imageName: "greeen", volume: 300, drinkType: .caffeine, caffeineContent: 40),
             .init(name: NSLocalizedString("Black Tea", comment: ""), imageName: "black", volume: 300, drinkType: .caffeine, caffeineContent: 70),
             .init(name: NSLocalizedString("Americano", comment: ""), imageName: "kafe", volume: 200, drinkType: .caffeine, caffeineContent: 71),
-            .init(name: NSLocalizedString("Coca-Cola", comment: ""), imageName: "coca_cola", volume: 500, drinkType: .caffeine, caffeineContent: 48),
-            .init(name: NSLocalizedString("Pepsi", comment: ""), imageName: "pepsi", volume: 500, drinkType: .caffeine, caffeineContent: 54),
+            .init(name: NSLocalizedString("Coca-Cola", comment: ""), imageName: "coca_cola", volume: 500, drinkType: .caffeine, caffeineContent: 40),
+            .init(name: NSLocalizedString("Pepsi", comment: ""), imageName: "pepsi", volume: 500, drinkType: .caffeine, caffeineContent: 64),
             .init(name: NSLocalizedString("Kofola", comment: ""), imageName: "kofola", volume: 500, drinkType: .caffeine, caffeineContent: 75)
         ]
     }
