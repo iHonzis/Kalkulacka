@@ -1,3 +1,12 @@
+    // Alcohol elimination rate in g/kg/hr
+    var alcoholEliminationRate: Double {
+        switch self {
+        case .male:
+            return 0.1
+        case .female:
+            return 0.085
+        }
+    }
 import Foundation
 import SwiftUI
 
@@ -59,6 +68,16 @@ struct UserProfile: Codable {
     var bmi: Double {
         let heightInMeters = height / 100.0
         return weight / (heightInMeters * heightInMeters)
+    }
+
+    // Alcohol distribution factor (Widmark r) using BMI, per Searle (2014):
+    var alcoholDistributionFactor: Double {
+        switch gender {
+        case .male:
+            return 1.0181 - 0.01213 * bmi
+        case .female:
+            return 0.9367 - 0.01240 * bmi
+        }
     }
 }
 
@@ -306,51 +325,60 @@ class DrinkStore: ObservableObject {
         }
 
         let bodyWeightInGrams = userProfile.weight * 1000
-        let distributionFactor = userProfile.gender.distributionFactor
-        let bac = (totalAlcoholGrams / (bodyWeightInGrams * distributionFactor)) * 1000
-
-        // Subtract metabolized alcohol (average 0.15‰ per hour)
+        let distributionFactor = userProfile.alcoholDistributionFactor
+        // Subtract metabolized alcohol based on weight and sex
         if let firstDrinkTimestamp = recentAlcoholDrinks.map({ $0.timestamp }).min() {
             let minutesSinceFirstDrink = Calendar.current.dateComponents([.minute], from: firstDrinkTimestamp, to: Date()).minute ?? 0
             let hoursSinceFirstDrink = Double(minutesSinceFirstDrink) / 60.0
-            let metabolizedBAC = hoursSinceFirstDrink * 0.15
-            return max(0, bac - metabolizedBAC)
+            let eliminationRate = userProfile.gender.alcoholEliminationRate // g/kg/hr
+            let metabolizedAlcohol = userProfile.weight * eliminationRate * hoursSinceFirstDrink // grams
+            let remainingAlcoholGrams = max(0, totalAlcoholGrams - metabolizedAlcohol)
+            let bac = (remainingAlcoholGrams / (bodyWeightInGrams * distributionFactor)) * 1000
+            return max(0, bac)
         }
-
+        let bac = (totalAlcoholGrams / (bodyWeightInGrams * distributionFactor)) * 1000
         return max(0, bac)
     }
     
-    // Calculate current caffeine level
+    // Calculate caffeine half-life based on age using the provided formula
+    private func caffeineHalfLife(for age: Int) -> Double {
+        // T1/2(V) ≈ 5 * (1.008)^(V-20)
+        return 5.0 * pow(1.008, Double(age - 20))
+    }
+
+    // Calculate current caffeine level using exponential decay (first-order kinetics)
     func calculateCurrentCaffeine() -> Double {
         let todayCaffeineDrinks = getTodayDrinks(for: .caffeine)
         guard !todayCaffeineDrinks.isEmpty else { return 0.0 }
 
-        let totalCaffeine = todayCaffeineDrinks.reduce(0) { $0 + ($1.caffeineContent ?? 0) }
-
-        // Subtract metabolized caffeine (average 12.5mg per hour)
-        if let firstDrinkTimestamp = todayCaffeineDrinks.map({ $0.timestamp }).min() {
-            let minutesSinceFirstDrink = Calendar.current.dateComponents([.minute], from: firstDrinkTimestamp, to: Date()).minute ?? 0
-            let hoursSinceFirstDrink = Double(minutesSinceFirstDrink) / 60.0
-            let metabolizedCaffeine = hoursSinceFirstDrink * 12.5
-            return max(0, totalCaffeine - metabolizedCaffeine)
+        let halfLife = caffeineHalfLife(for: userProfile.age)
+        let k = log(2) / halfLife
+        let now = Date()
+        let totalCaffeine = todayCaffeineDrinks.reduce(0.0) { sum, drink in
+            guard let caffeine = drink.caffeineContent else { return sum }
+            let hoursElapsed = now.timeIntervalSince(drink.timestamp) / 3600.0
+            return sum + caffeine * exp(-k * hoursElapsed)
         }
-
         return max(0, totalCaffeine)
     }
 
-    // Calculate when user will be clean (Caffeine < 5mg)
+    // Calculate when user will be clean (Caffeine < 5mg) using exponential decay
     func calculateCleanTime() -> Date? {
         let todayCaffeineDrinks = getTodayDrinks(for: .caffeine)
         guard !todayCaffeineDrinks.isEmpty else { return nil }
         
         // Calculate total caffeine consumed
         let totalCaffeine = todayCaffeineDrinks.reduce(0) { $0 + ($1.caffeineContent ?? 0) }
+        guard totalCaffeine > 5 else { return nil }
         
         // Find the latest drink timestamp (when the last drink was consumed)
         guard let latestDrinkTime = todayCaffeineDrinks.map({ $0.timestamp }).max() else { return nil }
         
-        // Calculate how long it takes to metabolize from total caffeine to 5mg
-        let hoursToClean = (totalCaffeine - 5) / 12.5 // 12.5mg per hour metabolism rate
+        // Calculate time to reach 5mg threshold using exponential decay
+        // C(t) = C₀ * e^(-kt), solving for t when C(t) = 5
+        // t = ln(C₀/5) * halfLife / ln(2)
+        let halfLife = caffeineHalfLife(for: userProfile.age)
+        let hoursToClean = log(totalCaffeine / 5.0) * halfLife / log(2.0)
         
         // Clean time = latest drink time + hours to metabolize to 5mg
         let cleanDate = latestDrinkTime.addingTimeInterval(hoursToClean * 3600)
