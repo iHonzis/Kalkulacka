@@ -1,10 +1,12 @@
-    // Alcohol elimination rate in g/kg/hr
-    var alcoholEliminationRate: Double {
-        switch self {
-        case .male:
-            return 0.1
-        case .female:
-            return 0.085
+    extension Gender {
+        // Alcohol elimination rate in g/kg/hr
+        var alcoholEliminationRate: Double {
+            switch self {
+            case .male:
+                return 0.1
+            case .female:
+                return 0.085
+            }
         }
     }
 import Foundation
