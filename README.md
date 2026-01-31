@@ -4,7 +4,7 @@ An iOS app for tracking alcohol and caffeine consumption with Apple Watch-style 
 
 ## Features
 
-### 🍷 Alcohol Tracking
+### Alcohol Tracking
 - Track standard drinks with alcohol percentage
 - Apple Watch-style activity ring showing progress toward daily limit (4 standard drinks)
 - **Blood Alcohol Content (BAC) calculation** using the Widmark formula
@@ -12,21 +12,21 @@ An iOS app for tracking alcohol and caffeine consumption with Apple Watch-style 
 - View detailed history with timestamps
 - Delete entries with swipe gestures
 
-### ☕ Caffeine Tracking
+### Caffeine Tracking
 - Track caffeine consumption in milligrams
 - Activity ring showing progress toward daily limit (400mg)
 - Add various caffeinated beverages
 - Comprehensive history view
 - Easy entry deletion
 
-### 👤 User Profile
+### User Profile
 - **Personal information**: Age, gender, weight, height
 - **BMI calculation** with health category indicators
 - **BAC calculation** based on personal data using scientific formulas
 - Gender-specific alcohol distribution factors
 - Automatic alcohol metabolism calculation
 
-### 🎨 Modern UI
+### Modern UI
 - Modern SwiftUI interface
 - Apple Watch-inspired activity rings
 - Tab-based navigation
