@@ -5,8 +5,8 @@
   Czech localization for Info.plist
 */
 
-"CFBundleDisplayName" = "Kalkulačka";
-"CFBundleName" = "Kalkulačka";
+"CFBundleDisplayName" = "AlCaf";
+"CFBundleName" = "AlCaf";
 
 // App Shortcuts
 "ShortcutLogAlcoholTitle" = "Zapsat Alkohol";

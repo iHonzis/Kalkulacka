@@ -5,8 +5,8 @@
   English localization for Info.plist
 */
 
-"CFBundleDisplayName" = "AlCaf Tracker";
-"CFBundleName" = "AlCaf Tracker";
+"CFBundleDisplayName" = "AlCaf";
+"CFBundleName" = "AlCaf";
 
 // App Shortcuts
 "ShortcutLogAlcoholTitle" = "Log Alcohol";

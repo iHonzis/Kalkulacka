@@ -2,41 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.Kalkulacka</string>
-	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
-	<key>CFBundleName</key>
-	<string>CFBundleName</string>
-	<key>CFBundleDisplayName</key>
-	<string>CFBundleDisplayName</string>
-	<key>CFBundleVersion</key>
-	<string>1</string>
-	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
-	<key>UIApplicationShortcutItems</key>
-	<array>
-		<dict>
-			<key>UIApplicationShortcutItemType</key>
-			<string>log-alcohol</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>ShortcutLogAlcoholTitle</string>
-			<key>UIApplicationShortcutItemIconSymbolName</key>
-			<string>wineglass</string>
-			<key>UIApplicationShortcutItemSubtitle</key>
-			<string>ShortcutLogAlcoholSubtitle</string>
-		</dict>
-		<dict>
-			<key>UIApplicationShortcutItemType</key>
-			<string>log-caffeine</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>ShortcutLogCaffeineTitle</string>
-			<key>UIApplicationShortcutItemIconSymbolName</key>
-			<string>cup.and.saucer</string>
-			<key>UIApplicationShortcutItemSubtitle</key>
-			<string>ShortcutLogCaffeineSubtitle</string>
-		</dict>
-	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -52,5 +17,28 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconSymbolName</key>
+			<string>wineglass</string>
+			<key>UIApplicationShortcutItemSubtitle</key>
+			<string>ShortcutLogAlcoholSubtitle</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>ShortcutLogAlcoholTitle</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>log-alcohol</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconSymbolName</key>
+			<string>cup.and.saucer</string>
+			<key>UIApplicationShortcutItemSubtitle</key>
+			<string>ShortcutLogCaffeineSubtitle</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>ShortcutLogCaffeineTitle</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>log-caffeine</string>
+		</dict>
+	</array>
 </dict>
 </plist>
