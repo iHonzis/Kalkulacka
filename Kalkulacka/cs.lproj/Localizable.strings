@@ -128,3 +128,29 @@
 "Caffeine content cannot be negative" = "Obsah kofeinu nemůže být záporný";
 
 "Report feedback" = "Nahlásit chybu";
+"About" = "O aplikaci";
+
+// O aplikaci – informace o výpočtech
+"This app uses Widmark's method to calculate blood alcohol content (BAC)." = "Tato aplikace používá Widmarkovu metodu pro výpočet obsahu alkoholu v krvi (ALK).";
+"Calculation:" = "Výpočet:";
+"‰ BAC = (Volume × % Alcohol × 0.789) / (Body Weight × Constant) × 1000" = "‰ ALK = (Objem × % Alkoholu × 0,789) / (Tělesná hmotnost × Konstanta) × 1000";
+"Where:" = "Kde:";
+"• Volume: Drink volume in ml" = "• Objem: Objem nápoje v ml";
+"• % Alcohol: Alcohol percentage of the drink" = "• % Alkoholu: Procentuální obsah alkoholu v nápoji";
+"• 0.789: Density of ethanol (g/cm³)" = "• 0,789: Hustota ethanolu (g/cm³)";
+"• Body Weight: User's weight in kg" = "• Tělesná hmotnost: Váha uživatele v kg";
+"• Constant: Proportion of water in the body (0.68 for males, 0.55 for females)" = "• Konstanta: Podíl vody v těle (0,68 u mužů, 0,55 u žen)";
+"Sources:" = "Zdroje:";
+"Kubička, J. 2011. Metody a principy měření alkoholu v těle. Theses.cz" = "Kubička, J. 2011. Metody a principy měření alkoholu v těle. Theses.cz";
+"Searle, J. 2014. Alcohol calculations. Sagepub.com" = "Searle, J. 2014. Alcohol calculations. Sagepub.com";
+"More" = "Více";
+"This app uses first-order kinetics to calculate caffeine metabolism, as caffeine is not eliminated linearly." = "Tato aplikace používá kinetiku prvního řádu pro výpočet metabolismu kofeinu, protože kofein se neodstraňuje lineárně.";
+"m(t) = m₀ × e^(-t × ln2 / t₁/₂)" = "m(t) = m₀ × e^(-t × ln2 / t₁/₂)";
+"• m(t): Caffeine amount at time t" = "• m(t): Množství kofeinu v čase t";
+"• m₀: Initial caffeine amount in mg" = "• m₀: Počáteční množství kofeinu v mg";
+"• t: Time elapsed in hours" = "• t: Uběhlý čas v hodinách";
+"• t₁/₂: Half-life of caffeine (avg 5 hours, varies with age)" = "• t₁/₂: Poločas rozpadu kofeinu (průměrně 5 hodin, liší se dle věku)";
+"• e: Euler's number (exponential decay)" = "• e: Eulerovo číslo (exponenciální úbytek)";
+"Lávičková, K. 2021. Metabolismus kofeinu. Jcu.cz" = "Lávičková, K. 2021. Metabolismus kofeinu. Jcu.cz";
+"Ritter, F. E. & Yeh, M. 2011. Pharmacokinetics & Pharmacodynamics." = "Ritter, F. E. & Yeh, M. 2011. Pharmacokinetics & Pharmacodynamics.";
+"McLean, A.J. & Le Couteur, D.G. 2004. Aging biology & pharmacology." = "McLean, A.J. & Le Couteur, D.G. 2004. Aging biology & pharmacology.";

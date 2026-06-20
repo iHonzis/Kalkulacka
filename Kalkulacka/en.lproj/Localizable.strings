@@ -128,3 +128,29 @@
 "Caffeine content cannot be negative" = "Caffeine content cannot be negative";
 
 "Report feedback" = "Report feedback";
+"About" = "About";
+
+// About - calculation info
+"This app uses Widmark's method to calculate blood alcohol content (BAC)." = "This app uses Widmark's method to calculate blood alcohol content (BAC).";
+"Calculation:" = "Calculation:";
+"‰ BAC = (Volume × % Alcohol × 0.789) / (Body Weight × Constant) × 1000" = "‰ BAC = (Volume × % Alcohol × 0.789) / (Body Weight × Constant) × 1000";
+"Where:" = "Where:";
+"• Volume: Drink volume in ml" = "• Volume: Drink volume in ml";
+"• % Alcohol: Alcohol percentage of the drink" = "• % Alcohol: Alcohol percentage of the drink";
+"• 0.789: Density of ethanol (g/cm³)" = "• 0.789: Density of ethanol (g/cm³)";
+"• Body Weight: User's weight in kg" = "• Body Weight: User's weight in kg";
+"• Constant: Proportion of water in the body (0.68 for males, 0.55 for females)" = "• Constant: Proportion of water in the body (0.68 for males, 0.55 for females)";
+"Sources:" = "Sources:";
+"Kubička, J. 2011. Metody a principy měření alkoholu v těle. Theses.cz" = "Kubička, J. 2011. Metody a principy měření alkoholu v těle. Theses.cz";
+"Searle, J. 2014. Alcohol calculations. Sagepub.com" = "Searle, J. 2014. Alcohol calculations. Sagepub.com";
+"More" = "More";
+"This app uses first-order kinetics to calculate caffeine metabolism, as caffeine is not eliminated linearly." = "This app uses first-order kinetics to calculate caffeine metabolism, as caffeine is not eliminated linearly.";
+"m(t) = m₀ × e^(-t × ln2 / t₁/₂)" = "m(t) = m₀ × e^(-t × ln2 / t₁/₂)";
+"• m(t): Caffeine amount at time t" = "• m(t): Caffeine amount at time t";
+"• m₀: Initial caffeine amount in mg" = "• m₀: Initial caffeine amount in mg";
+"• t: Time elapsed in hours" = "• t: Time elapsed in hours";
+"• t₁/₂: Half-life of caffeine (avg 5 hours, varies with age)" = "• t₁/₂: Half-life of caffeine (avg 5 hours, varies with age)";
+"• e: Euler's number (exponential decay)" = "• e: Euler's number (exponential decay)";
+"Lávičková, K. 2021. Metabolismus kofeinu. Jcu.cz" = "Lávičková, K. 2021. Metabolismus kofeinu. Jcu.cz";
+"Ritter, F. E. & Yeh, M. 2011. Pharmacokinetics & Pharmacodynamics." = "Ritter, F. E. & Yeh, M. 2011. Pharmacokinetics & Pharmacodynamics.";
+"McLean, A.J. & Le Couteur, D.G. 2004. Aging biology & pharmacology." = "McLean, A.J. & Le Couteur, D.G. 2004. Aging biology & pharmacology.";

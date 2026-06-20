@@ -8,6 +8,7 @@ struct UserProfileView: View {
     @State private var gender: Gender = .male
     @State private var weight: String = ""
     @State private var height: String = ""
+    @State private var showAbout: Bool = false
     
     var body: some View {
         NavigationView {
@@ -75,6 +76,11 @@ struct UserProfileView: View {
                         sendFeedbackEmail()
                     }
                     .foregroundColor(.accentColor)
+                    
+                    Button(NSLocalizedString("About", comment: "")) {
+                        showAbout = true
+                    }
+                    .foregroundColor(.accentColor)
                 }
             }
             .navigationTitle(NSLocalizedString("My Profile", comment: ""))
@@ -94,6 +100,9 @@ struct UserProfileView: View {
             }
             .onAppear {
                 loadCurrentProfile()
+            }
+            .sheet(isPresented: $showAbout) {
+                AboutView()
             }
         }
     }
@@ -194,4 +203,161 @@ struct UserProfileView_Previews: PreviewProvider {
     static var previews: some View {
         UserProfileView(drinkStore: DrinkStore())
     }
-} 
+}
+
+struct AboutView: View {
+    @Environment(\.dismiss) private var dismiss
+    
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    // Alcohol Section
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text(NSLocalizedString("Alcohol", comment: ""))
+                            .font(.headline)
+                        
+                        Text(NSLocalizedString("This app uses Widmark's method to calculate blood alcohol content (BAC).", comment: ""))
+                            .font(.body)
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(NSLocalizedString("Calculation:", comment: ""))
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                            
+                            Text(NSLocalizedString("‰ BAC = (Volume × % Alcohol × 0.789) / (Body Weight × Constant) × 1000", comment: ""))
+                                .font(.caption)
+                                .italic()
+                            
+                            Text(NSLocalizedString("Where:", comment: ""))
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                            
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(NSLocalizedString("• Volume: Drink volume in ml", comment: ""))
+                                Text(NSLocalizedString("• % Alcohol: Alcohol percentage of the drink", comment: ""))
+                                Text(NSLocalizedString("• 0.789: Density of ethanol (g/cm³)", comment: ""))
+                                Text(NSLocalizedString("• Body Weight: User's weight in kg", comment: ""))
+                                Text(NSLocalizedString("• Constant: Proportion of water in the body (0.68 for males, 0.55 for females)", comment: ""))
+                            }
+                            .font(.caption)
+                        }
+                        .padding(8)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
+                        
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(NSLocalizedString("Sources:", comment: ""))
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                            
+                            HStack(spacing: 4) {
+                                Text(NSLocalizedString("Kubička, J. 2011. Metody a principy měření alkoholu v těle. Theses.cz", comment: ""))
+                                    .font(.caption2)
+                                Spacer()
+                                Link(NSLocalizedString("More", comment: ""), destination: URL(string: "https://theses.cz/id/m0kmef/BP.pdf") ?? URL(string: "https://theses.cz")!)
+                                    .font(.caption2)
+                                    .foregroundColor(.blue)
+                            }
+                            
+                            HStack(spacing: 4) {
+                                Text(NSLocalizedString("Searle, J. 2014. Alcohol calculations. Sagepub.com", comment: ""))
+                                    .font(.caption2)
+                                Spacer()
+                                Link(NSLocalizedString("More", comment: ""), destination: URL(string: "https://journals.sagepub.com/doi/10.1177/0025802414524385") ?? URL(string: "https://journals.sagepub.com")!)
+                                    .font(.caption2)
+                                    .foregroundColor(.blue)
+                            }
+                        }
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(12)
+                    
+                    // Caffeine Section
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text(NSLocalizedString("Caffeine", comment: ""))
+                            .font(.headline)
+                        
+                        Text(NSLocalizedString("This app uses first-order kinetics to calculate caffeine metabolism, as caffeine is not eliminated linearly.", comment: ""))
+                            .font(.body)
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(NSLocalizedString("Calculation:", comment: ""))
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                            
+                            Text(NSLocalizedString("m(t) = m₀ × e^(-t × ln2 / t₁/₂)", comment: ""))
+                                .font(.caption)
+                                .italic()
+                            
+                            Text(NSLocalizedString("Where:", comment: ""))
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                            
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(NSLocalizedString("• m(t): Caffeine amount at time t", comment: ""))
+                                Text(NSLocalizedString("• m₀: Initial caffeine amount in mg", comment: ""))
+                                Text(NSLocalizedString("• t: Time elapsed in hours", comment: ""))
+                                Text(NSLocalizedString("• t₁/₂: Half-life of caffeine (avg 5 hours, varies with age)", comment: ""))
+                                Text(NSLocalizedString("• e: Euler's number (exponential decay)", comment: ""))
+                            }
+                            .font(.caption)
+                        }
+                        .padding(8)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
+                        
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(NSLocalizedString("Sources:", comment: ""))
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                            
+                            HStack(spacing: 4) {
+                                Text(NSLocalizedString("Lávičková, K. 2021. Metabolismus kofeinu. Jcu.cz", comment: ""))
+                                    .font(.caption2)
+                                Spacer()
+                                Link(NSLocalizedString("More", comment: ""), destination: URL(string: "https://dspace.jcu.cz/bitstream/handle/20.500.14390/44832/Lavickova_Katerina_2021_BP.pdf") ?? URL(string: "https://dspace.jcu.cz")!)
+                                    .font(.caption2)
+                                    .foregroundColor(.blue)
+                            }
+                            
+                            HStack(spacing: 4) {
+                                Text(NSLocalizedString("Ritter, F. E. & Yeh, M. 2011. Pharmacokinetics & Pharmacodynamics.", comment: ""))
+                                    .font(.caption2)
+                                Spacer()
+                                Link(NSLocalizedString("More", comment: ""), destination: URL(string: "https://acs.ist.psu.edu/papers/ritterY11.pdf") ?? URL(string: "https://acs.ist.psu.edu")!)
+                                    .font(.caption2)
+                                    .foregroundColor(.blue)
+                            }
+                            
+                            HStack(spacing: 4) {
+                                Text(NSLocalizedString("McLean, A.J. & Le Couteur, D.G. 2004. Aging biology & pharmacology.", comment: ""))
+                                    .font(.caption2)
+                                Spacer()
+                                Link(NSLocalizedString("More", comment: ""), destination: URL(string: "https://www.sciencedirect.com/science/article/abs/pii/S0031699724016120") ?? URL(string: "https://www.sciencedirect.com")!)
+                                    .font(.caption2)
+                                    .foregroundColor(.blue)
+                            }
+                        }
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(12)
+                    
+                    Spacer()
+                }
+                .padding()
+            }
+            .navigationTitle(NSLocalizedString("About", comment: ""))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(NSLocalizedString("Cancel", comment: "")) {
+                        dismiss()
+                    }
+                }
+            }
+        }
+    }
+}
