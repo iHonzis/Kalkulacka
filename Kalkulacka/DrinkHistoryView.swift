@@ -29,6 +29,9 @@ struct DrinkHistoryView: View {
                     Section(header: Text(date, style: .date)) {
                         ForEach(groupedDrinks[date]!.sorted(by: { $0.timestamp > $1.timestamp })) { drink in
                             DrinkHistoryRow(drink: drink)
+                                .onLongPressGesture {
+                                    drinkStore.duplicateDrink(drink)
+                                }
                                 .swipeActions(edge: .leading, allowsFullSwipe: false) {
                                     Button(NSLocalizedString("Edit Time", comment: "")) {
                                         selectedDrink = drink

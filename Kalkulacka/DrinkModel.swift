@@ -252,6 +252,21 @@ class DrinkStore: ObservableObject {
         saveDrinks()
     }
     
+    func duplicateDrink(_ drink: Drink) {
+        let duplicatedDrink = Drink(
+            id: UUID(),
+            type: drink.type,
+            name: drink.name,
+            amount: drink.amount,
+            unit: drink.unit,
+            timestamp: Date(),
+            alcoholPercentage: drink.alcoholPercentage,
+            caffeineContent: drink.caffeineContent
+        )
+        drinks.append(duplicatedDrink)
+        saveDrinks()
+    }
+    
     func removeAllDrinks(for type: DrinkType) {
         drinks.removeAll { $0.type == type }
         saveDrinks()
