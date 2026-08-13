@@ -154,3 +154,13 @@
 "Lávičková, K. 2021. Metabolismus kofeinu. Jcu.cz" = "Lávičková, K. 2021. Metabolismus kofeinu. Jcu.cz";
 "Ritter, F. E. & Yeh, M. 2011. Pharmacokinetics & Pharmacodynamics." = "Ritter, F. E. & Yeh, M. 2011. Pharmacokinetics & Pharmacodynamics.";
 "McLean, A.J. & Le Couteur, D.G. 2004. Aging biology & pharmacology." = "McLean, A.J. & Le Couteur, D.G. 2004. Aging biology & pharmacology.";
+
+// What's New Screen
+"whats_new_title" = "What's New in AlCaf";
+"whats_new_close" = "Continue";
+"feature_splash_screen" = "Splash Screen with New Features";
+"feature_splash_screen_desc" = "Learn about the latest updates and new features";
+"feature_duplicate_drink" = "Duplicate Drink by Long Press";
+"feature_duplicate_drink_desc" = "Hold your finger on a drink to duplicate it";
+"feature_tutorial_profile" = "Tutorial in Me View";
+"feature_tutorial_profile_desc" = "New guide to set up your profile";

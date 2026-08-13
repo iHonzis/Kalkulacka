@@ -71,6 +71,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct KalkulackaApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @State private var showWhatsNew = false
     
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
@@ -87,8 +88,21 @@ struct KalkulackaApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(ShortcutManager.shared)
+            ZStack {
+                ContentView()
+                    .environmentObject(ShortcutManager.shared)
+                
+                if showWhatsNew {
+                    WhatsNewView(isPresented: $showWhatsNew)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
+            }
+            .onAppear {
+                if AppVersionManager.shared.shouldShowWhatsNew() {
+                    showWhatsNew = true
+                    AppVersionManager.shared.markWhatsNewAsShown()
+                }
+            }
         }
         .modelContainer(sharedModelContainer)
     }
