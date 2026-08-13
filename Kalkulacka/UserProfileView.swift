@@ -9,6 +9,7 @@ struct UserProfileView: View {
     @State private var weight: String = ""
     @State private var height: String = ""
     @State private var showAbout: Bool = false
+    @State private var showTutorial: Bool = false
     
     var body: some View {
         NavigationView {
@@ -77,6 +78,11 @@ struct UserProfileView: View {
                     }
                     .foregroundColor(.accentColor)
                     
+                    Button(NSLocalizedString("Tutorial", comment: "")) {
+                        showTutorial = true
+                    }
+                    .foregroundColor(.accentColor)
+                    
                     Button(NSLocalizedString("About", comment: "")) {
                         showAbout = true
                     }
@@ -103,6 +109,9 @@ struct UserProfileView: View {
             }
             .sheet(isPresented: $showAbout) {
                 AboutView()
+            }
+            .sheet(isPresented: $showTutorial) {
+                TutorialView(isPresented: $showTutorial)
             }
         }
     }

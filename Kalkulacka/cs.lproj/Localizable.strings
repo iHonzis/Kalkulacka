@@ -129,6 +129,7 @@
 
 "Report feedback" = "Nahlásit chybu";
 "About" = "O aplikaci";
+"Tutorial" = "Tutoriál";
 
 // O aplikaci – informace o výpočtech
 "This app uses Widmark's method to calculate blood alcohol content (BAC)." = "Tato aplikace používá Widmarkovu metodu pro výpočet obsahu alkoholu v krvi (ALK).";
@@ -164,3 +165,15 @@
 "feature_duplicate_drink_desc" = "Podržte prst na nápoji a duplikujte ho";
 "feature_tutorial_profile" = "Tutoriál v Profilu";
 "feature_tutorial_profile_desc" = "Nový průvodce pro nastavení svého profilu";
+
+// Tutorial Screen
+"tutorial_title" = "AlCaf Tracker";
+"tutorial_close" = "Začít";
+"tutorial_step_1" = "Nastavit věk a váhu";
+"tutorial_step_1_desc" = "Klikněte na Já a nastavte svůj věk a váhu";
+"tutorial_step_2" = "Přidejte nápoje";
+"tutorial_step_2_desc" = "Zadejte nápoje - známé nebo vlastní";
+"tutorial_step_3" = "Spravujte nápoje";
+"tutorial_step_3_desc" = "Upravte, kopírujte (dlouhý stisk) a odstraňujte je v Historii";
+"tutorial_step_4" = "Sdělte nám svůj názor";
+"tutorial_step_4_desc" = "Zanechte recenzi nebo nahlaste chyby";

@@ -129,6 +129,7 @@
 
 "Report feedback" = "Report feedback";
 "About" = "About";
+"Tutorial" = "Tutorial";
 
 // About - calculation info
 "This app uses Widmark's method to calculate blood alcohol content (BAC)." = "This app uses Widmark's method to calculate blood alcohol content (BAC).";
@@ -164,3 +165,15 @@
 "feature_duplicate_drink_desc" = "Hold your finger on a drink to duplicate it";
 "feature_tutorial_profile" = "Tutorial in Me View";
 "feature_tutorial_profile_desc" = "New guide to set up your profile";
+
+// Tutorial Screen
+"tutorial_title" = "AlCaf Tracker";
+"tutorial_close" = "Get Started";
+"tutorial_step_1" = "Set Your Age and Weight";
+"tutorial_step_1_desc" = "Tap Me and set your age and weight";
+"tutorial_step_2" = "Add Drinks";
+"tutorial_step_2_desc" = "Enter your drinks, known or custom";
+"tutorial_step_3" = "Manage Drinks";
+"tutorial_step_3_desc" = "Edit, copy (long press) and delete them in History";
+"tutorial_step_4" = "Leave Your Feedback";
+"tutorial_step_4_desc" = "Feel free to leave a review or report bugs";
