@@ -9,6 +9,7 @@
 "message" = "Hello";
 "Edit" = "Edit";
 "Me" = "Me";
+"Default" = "Default";
 "Alcohol Tracker" = "Alcohol Tracker";
 "of" = "of";
 "Standard Drinks" = "Standard Drinks";
@@ -71,6 +72,7 @@
 
 "No drinks recorded" = "No drinks recorded";
 "Edit Time" = "Edit Time";
+"Duplicate" = "Duplicate";
 "Delete All" = "Delete All";
 "History" = "History";
 "Are you sure?" = "Are you sure?";

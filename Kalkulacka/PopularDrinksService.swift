@@ -23,6 +23,38 @@ struct PopularDrinkData: Identifiable, Codable {
     var alcoholPercentage: Double? // in %
     var caffeineContent: Double? // in mg
     
+    var isSizeSelectable: Bool {
+        let normalizedName = name.lowercased()
+        let isBeer = drinkType == .alcohol && normalizedName.contains("beer")
+        let isSoftDrink = drinkType == .caffeine && (
+            normalizedName.contains("coca") ||
+            normalizedName.contains("cola") ||
+            normalizedName.contains("pepsi") ||
+            normalizedName.contains("kofola") ||
+            normalizedName.contains("coke")
+        )
+        return isBeer || isSoftDrink
+    }
+    
+    var selectableVolumeOptions: [Double] {
+        guard isSizeSelectable else { return [volume] }
+        return [333, 500, 1000]
+    }
+    
+    func adjustedDrink(for selectedVolume: Double) -> PopularDrinkData {
+        guard selectedVolume > 0 else { return self }
+        let scale = selectedVolume / max(volume, 1)
+        return PopularDrinkData(
+            id: id,
+            name: name,
+            imageName: imageName,
+            volume: selectedVolume,
+            drinkType: drinkType,
+            alcoholPercentage: alcoholPercentage,
+            caffeineContent: caffeineContent.map { $0 * scale }
+        )
+    }
+    
     init(id: UUID = UUID(), name: String, imageName: String, volume: Double, drinkType: DrinkType, alcoholPercentage: Double? = nil, caffeineContent: Double? = nil) {
         self.id = id
         self.name = name
@@ -173,7 +205,7 @@ class PopularDrinksService: ObservableObject {
             .init(name: NSLocalizedString("Flat White", comment: ""), imageName: "flat_white", volume: 170, drinkType: .caffeine, caffeineContent: 100),
             .init(name: NSLocalizedString("Green Tea", comment: ""), imageName: "greeen", volume: 300, drinkType: .caffeine, caffeineContent: 40),
             .init(name: NSLocalizedString("Black Tea", comment: ""), imageName: "black", volume: 300, drinkType: .caffeine, caffeineContent: 70),
-            .init(name: NSLocalizedString("Americano", comment: ""), imageName: "kafe", volume: 200, drinkType: .caffeine, caffeineContent: 71),
+            .init(name: NSLocalizedString("Americano", comment: ""), imageName: "kafe", volume: 200, drinkType: .caffeine, caffeineContent: 70),
             .init(name: NSLocalizedString("Coca-Cola", comment: ""), imageName: "coca_cola", volume: 500, drinkType: .caffeine, caffeineContent: 40),
             .init(name: NSLocalizedString("Pepsi", comment: ""), imageName: "pepsi", volume: 500, drinkType: .caffeine, caffeineContent: 64),
             .init(name: NSLocalizedString("Kofola", comment: ""), imageName: "kofola", volume: 500, drinkType: .caffeine, caffeineContent: 75)

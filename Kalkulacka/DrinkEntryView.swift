@@ -99,7 +99,7 @@ struct DrinkEntryView: View {
                 }
             }
         }
-        .navigationTitle("\(NSLocalizedString("Add", comment: "")) \(NSLocalizedString(drinkType.rawValue, comment: ""))")
+.navigationTitle("\(NSLocalizedString("Add", comment: "")) \(NSLocalizedString(drinkType.rawValue, comment: ""))")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -129,6 +129,17 @@ struct DrinkEntryView: View {
         isRefreshing = true
         await drinksService.forceRefresh()
         isRefreshing = false
+    }
+    
+    private func sizeOptionLabel(for selectedVolume: Double, defaultVolume: Double, unit: String = "ml") -> String {
+        let formattedVolume = Int(selectedVolume.rounded())
+        let displayUnit = unit.lowercased() == "ml" ? "ml" : unit
+        let isDefault = abs(selectedVolume - defaultVolume) < 0.001
+        let defaultText = NSLocalizedString("Default", comment: "")
+        if isDefault {
+            return "\(formattedVolume) \(displayUnit) \(defaultText)"
+        }
+        return "\(formattedVolume) \(displayUnit)"
     }
     
     private func addPopularDrink(_ popularDrink: PopularDrinkData) {
@@ -191,6 +202,17 @@ struct PopularDrinkButton: View {
     let drink: PopularDrinkData
     let action: (PopularDrinkData) -> Void
     
+    private func sizeOptionLabel(for selectedVolume: Double, defaultVolume: Double, unit: String = "ml") -> String {
+        let formattedVolume = Int(selectedVolume.rounded())
+        let displayUnit = unit.lowercased() == "ml" ? "ml" : unit
+        let isDefault = abs(selectedVolume - defaultVolume) < 0.001
+        let defaultText = NSLocalizedString("Default", comment: "")
+        if isDefault {
+            return "\(formattedVolume) \(displayUnit) \(defaultText)"
+        }
+        return "\(formattedVolume) \(displayUnit)"
+    }
+    
     var body: some View {
         Button(action: {
             action(drink)
@@ -211,6 +233,17 @@ struct PopularDrinkButton: View {
             .frame(maxWidth: .infinity, minHeight: 140)
             .background(Color(UIColor.systemGray6))
             .cornerRadius(10)
+        }
+        .contextMenu {
+            if drink.isSizeSelectable {
+                ForEach(drink.selectableVolumeOptions, id: \ .self) { size in
+                    Button(action: {
+                        action(drink.adjustedDrink(for: size))
+                    }) {
+                        Text(sizeOptionLabel(for: size, defaultVolume: drink.volume, unit: "ml"))
+                    }
+                }
+            }
         }
     }
 }

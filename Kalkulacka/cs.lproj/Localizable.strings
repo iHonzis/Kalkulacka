@@ -9,6 +9,7 @@
 "message" = "Ahoj";
 "Edit" = "Upravit";
 "Me" = "Já";
+"Default" = "Výchozí";
 "Alcohol Tracker" = "Alkohol Kalkulačka";
 "of" = "z";
 "Standard Drinks" = "Bězných nápojů";
@@ -71,6 +72,7 @@
 
 "No drinks recorded" = "Žádné nápoje nejsou zaznamenány";
 "Edit Time" = "Upravit čas";
+"Duplicate" = "Duplikovat";
 "Delete All" = "Smazat vše";
 "History" = "Historie";
 "Are you sure?" = "Jste si jisti?";
