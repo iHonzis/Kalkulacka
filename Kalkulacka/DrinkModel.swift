@@ -93,12 +93,24 @@ struct Drink: Identifiable, Codable {
     
     // Alcohol properties
     var alcoholPercentage: Double?
-    var standardDrinks: Double {
+    var alcoholGrams: Double {
         guard let alcoholPercentage = alcoholPercentage else { return 0 }
+
+        let amountInML: Double
+        switch unit.lowercased() {
+        case "oz", "fl oz":
+            amountInML = amount * 29.5735
+        case "cl":
+            amountInML = amount * 10
+        default:
+            amountInML = amount
+        }
+
+        return amountInML * (alcoholPercentage / 100.0) * 0.789
+    }
+
+    var standardDrinks: Double {
         // 1 standard drink = 14g of pure alcohol.
-        // Alcohol volume (ml) = amount * (alcoholPercentage / 100.0)
-        // Alcohol mass (g) = Alcohol volume * ethanol density (0.789 g/ml)
-        let alcoholGrams = amount * (alcoholPercentage / 100.0) * 0.789
         return alcoholGrams / 14.0
     }
     
@@ -315,8 +327,7 @@ class DrinkStore: ObservableObject {
     }
     
     func getTotalStandardDrinks() -> Double {
-        let recentAlcohol = getRecentDrinks(for: .alcohol)
-        return recentAlcohol.reduce(0) { $0 + $1.standardDrinks }
+        return activeAlcoholGrams() / 14.0
     }
     
     func getTotalCaffeine() -> Double {
@@ -324,7 +335,7 @@ class DrinkStore: ObservableObject {
         return todayCaffeine.reduce(0) { $0 + ($1.caffeineContent ?? 0) }
     }
     
-    // Helper to get drinks in the last 24 hours for a type
+    // Kept for non-alcohol callers that need a rolling time window.
     func getRecentDrinks(for type: DrinkType, hours: Double = 24) -> [Drink] {
         let now = Date()
         let from = now.addingTimeInterval(-hours * 3600)
@@ -334,26 +345,12 @@ class DrinkStore: ObservableObject {
     
     // Blood Alcohol Content calculation in Promile (‰)
     func calculateCurrentBAC() -> Double {
-        let recentAlcoholDrinks = getRecentDrinks(for: .alcohol)
-        guard !recentAlcoholDrinks.isEmpty else { return 0.0 }
-
-        let totalAlcoholGrams = recentAlcoholDrinks.reduce(0) { total, drink in
-            total + (drink.amount * (drink.alcoholPercentage ?? 0) / 100.0 * 0.789)
-        }
+        let totalRemainingAlcoholGrams = remainingAlcoholGrams()
+        guard totalRemainingAlcoholGrams > 0 else { return 0.0 }
 
         let bodyWeightInGrams = userProfile.weight * 1000
         let distributionFactor = userProfile.alcoholDistributionFactor
-        // Subtract metabolized alcohol based on weight and sex
-        if let firstDrinkTimestamp = recentAlcoholDrinks.map({ $0.timestamp }).min() {
-            let minutesSinceFirstDrink = Calendar.current.dateComponents([.minute], from: firstDrinkTimestamp, to: Date()).minute ?? 0
-            let hoursSinceFirstDrink = Double(minutesSinceFirstDrink) / 60.0
-            let eliminationRate = userProfile.gender.alcoholEliminationRate // g/kg/hr
-            let metabolizedAlcohol = userProfile.weight * eliminationRate * hoursSinceFirstDrink // grams
-            let remainingAlcoholGrams = max(0, totalAlcoholGrams - metabolizedAlcohol)
-            let bac = (remainingAlcoholGrams / (bodyWeightInGrams * distributionFactor)) * 1000
-            return max(0, bac)
-        }
-        let bac = (totalAlcoholGrams / (bodyWeightInGrams * distributionFactor)) * 1000
+        let bac = (totalRemainingAlcoholGrams / (bodyWeightInGrams * distributionFactor)) * 1000
         return max(0, bac)
     }
     
@@ -365,43 +362,45 @@ class DrinkStore: ObservableObject {
 
     // Calculate current caffeine level using exponential decay (first-order kinetics)
     func calculateCurrentCaffeine() -> Double {
-        let todayCaffeineDrinks = getTodayDrinks(for: .caffeine)
-        guard !todayCaffeineDrinks.isEmpty else { return 0.0 }
-
-        let halfLife = caffeineHalfLife(for: userProfile.age)
-        let k = log(2) / halfLife
-        let now = Date()
-        let totalCaffeine = todayCaffeineDrinks.reduce(0.0) { sum, drink in
-            guard let caffeine = drink.caffeineContent else { return sum }
-            let hoursElapsed = now.timeIntervalSince(drink.timestamp) / 3600.0
-            return sum + caffeine * exp(-k * hoursElapsed)
-        }
-        return max(0, totalCaffeine)
+        return caffeineLevel(at: Date())
     }
 
     // Calculate when user will be clean (Caffeine < 5mg) using exponential decay
     func calculateCleanTime() -> Date? {
-        let todayCaffeineDrinks = getTodayDrinks(for: .caffeine)
-        guard !todayCaffeineDrinks.isEmpty else { return nil }
-        
-        // Calculate total caffeine consumed
-        let totalCaffeine = todayCaffeineDrinks.reduce(0) { $0 + ($1.caffeineContent ?? 0) }
-        guard totalCaffeine > 5 else { return nil }
-        
-        // Find the latest drink timestamp (when the last drink was consumed)
-        guard let latestDrinkTime = todayCaffeineDrinks.map({ $0.timestamp }).max() else { return nil }
-        
-        // Calculate time to reach 5mg threshold using exponential decay
-        // C(t) = C₀ * e^(-kt), solving for t when C(t) = 5
-        // t = ln(C₀/5) * halfLife / ln(2)
+        let now = Date()
+        guard caffeineLevel(at: now) > 5 else { return nil }
+
+        var lowerBound = now
+        var upperBound = now.addingTimeInterval(24 * 3600)
+        while caffeineLevel(at: upperBound) > 5 {
+            upperBound = upperBound.addingTimeInterval(24 * 3600)
+        }
+
+        for _ in 0..<60 {
+            let midpoint = lowerBound.addingTimeInterval(upperBound.timeIntervalSince(lowerBound) / 2)
+            if caffeineLevel(at: midpoint) > 5 {
+                lowerBound = midpoint
+            } else {
+                upperBound = midpoint
+            }
+        }
+
+        return upperBound
+    }
+
+    private func caffeineLevel(at date: Date) -> Double {
         let halfLife = caffeineHalfLife(for: userProfile.age)
-        let hoursToClean = log(totalCaffeine / 5.0) * halfLife / log(2.0)
-        
-        // Clean time = latest drink time + hours to metabolize to 5mg
-        let cleanDate = latestDrinkTime.addingTimeInterval(hoursToClean * 3600)
-        
-        // If clean time is in the past, return nil (already clean)
-        return cleanDate > Date() ? cleanDate : nil
+        let decayConstant = log(2) / halfLife
+
+        let totalCaffeine = drinks
+            .filter { $0.type == .caffeine && $0.timestamp <= date }
+            .reduce(0.0) { total, drink in
+                guard let caffeine = drink.caffeineContent else { return total }
+                let hoursElapsed = date.timeIntervalSince(drink.timestamp) / 3600.0
+                return total + caffeine * exp(-decayConstant * hoursElapsed)
+            }
+
+        return max(0, totalCaffeine)
     }
 
     // Format clean time for display
@@ -419,31 +418,79 @@ class DrinkStore: ObservableObject {
     
     // Calculate when user will be sober (BAC < 0.2‰)
     func calculateSoberTime() -> Date? {
-        let recentAlcohol = getRecentDrinks(for: .alcohol)
-        guard !recentAlcohol.isEmpty else { return nil }
+        let remainingAlcohol = remainingAlcoholGrams()
+        guard remainingAlcohol > 0 else { return nil }
 
-        // Calculate total alcohol grams consumed
-        let totalAlcoholGrams = recentAlcohol.reduce(0) { total, drink in
-            total + (drink.amount * (drink.alcoholPercentage ?? 0) / 100.0 * 0.789)
+        let eliminationRate = userProfile.weight * userProfile.gender.alcoholEliminationRate
+        guard eliminationRate > 0 else { return nil }
+
+        let hoursToSober = remainingAlcohol / eliminationRate
+        return Date().addingTimeInterval(hoursToSober * 3600)
+    }
+
+    private func remainingAlcoholGrams(at date: Date = Date()) -> Double {
+        let alcoholDrinks = drinks
+            .filter { $0.type == .alcohol && $0.timestamp <= date }
+            .sorted { $0.timestamp < $1.timestamp }
+        let eliminationRate = userProfile.weight * userProfile.gender.alcoholEliminationRate
+
+        var remainingAlcohol = 0.0
+        var previousTimestamp: Date?
+
+        for drink in alcoholDrinks {
+            if let previousTimestamp = previousTimestamp {
+                let hoursSincePreviousDrink = max(0, drink.timestamp.timeIntervalSince(previousTimestamp) / 3600.0)
+                remainingAlcohol = max(0, remainingAlcohol - eliminationRate * hoursSincePreviousDrink)
+            }
+
+            remainingAlcohol += drink.alcoholGrams
+            previousTimestamp = drink.timestamp
         }
 
-        let bodyWeightInGrams = userProfile.weight * 1000
-        let distributionFactor = userProfile.gender.distributionFactor
+        if let previousTimestamp = previousTimestamp {
+            let hoursSinceLastDrink = max(0, date.timeIntervalSince(previousTimestamp) / 3600.0)
+            remainingAlcohol = max(0, remainingAlcohol - eliminationRate * hoursSinceLastDrink)
+        }
 
-        // Calculate peak BAC (without metabolism)
-        let peakBAC = (totalAlcoholGrams / (bodyWeightInGrams * distributionFactor)) * 1000
+        return remainingAlcohol
+    }
 
-        // Find the latest drink timestamp (when the last drink was consumed)
-        guard let latestDrinkTime = recentAlcohol.map({ $0.timestamp }).max() else { return nil }
+    private func activeAlcoholGrams(at date: Date = Date()) -> Double {
+        let alcoholDrinks = drinks
+            .filter { $0.type == .alcohol && $0.timestamp <= date }
+            .sorted { $0.timestamp < $1.timestamp }
+        let eliminationRate = userProfile.weight * userProfile.gender.alcoholEliminationRate
 
-        // Calculate how long it takes to metabolize from peak BAC to 0.0‰
-        let hoursToSober = (peakBAC - 0.0) / 0.15 // 0.15‰ per hour metabolism rate
+        var remainingAlcohol = 0.0
+        var activeAlcohol = 0.0
+        var previousTimestamp: Date?
 
-        // Sober time = latest drink time + hours to metabolize to 0.2‰
-        let soberDate = latestDrinkTime.addingTimeInterval(hoursToSober * 3600)
+        for drink in alcoholDrinks {
+            if let previousTimestamp = previousTimestamp {
+                let hoursSincePreviousDrink = max(0, drink.timestamp.timeIntervalSince(previousTimestamp) / 3600.0)
+                remainingAlcohol -= eliminationRate * hoursSincePreviousDrink
 
-        // If sober time is in the past, return nil (already sober)
-        return soberDate > Date() ? soberDate : nil
+                if remainingAlcohol <= 0 {
+                    activeAlcohol = 0
+                }
+                remainingAlcohol = max(0, remainingAlcohol)
+            }
+
+            remainingAlcohol += drink.alcoholGrams
+            activeAlcohol += drink.alcoholGrams
+            previousTimestamp = drink.timestamp
+        }
+
+        if let previousTimestamp = previousTimestamp {
+            let hoursSinceLastDrink = max(0, date.timeIntervalSince(previousTimestamp) / 3600.0)
+            remainingAlcohol -= eliminationRate * hoursSinceLastDrink
+
+            if remainingAlcohol <= 0 {
+                return 0
+            }
+        }
+
+        return activeAlcohol
     }
     
     // Format sober time for display
