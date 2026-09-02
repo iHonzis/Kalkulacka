@@ -25,6 +25,32 @@ struct DrinkEntryView: View {
         drinksService.getPopularDrinks(for: drinkType)
     }
     private let units = ["ml", "oz", "cl", "fl oz"]
+
+    private var alcoholSliderBinding: Binding<Double> {
+        Binding(
+            get: { Double(alcoholPercentage) ?? 0.0 },
+            set: { newValue in
+                if newValue == 0 {
+                    alcoholPercentage = ""
+                } else {
+                    alcoholPercentage = newValue.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", newValue) : String(format: "%.1f", newValue)
+                }
+            }
+        )
+    }
+    
+    private var coffeeGramsBinding: Binding<Double> {
+        Binding(
+            get: { (Double(caffeineContent) ?? 0.0) / 8.0 },
+            set: { newValue in
+                if newValue == 0 {
+                    caffeineContent = ""
+                } else {
+                    caffeineContent = String(format: "%.0f", newValue * 8.0)
+                }
+            }
+        )
+    }
     
     var body: some View {
         VStack {
@@ -64,6 +90,12 @@ struct DrinkEntryView: View {
                                     .keyboardType(.decimalPad)
                                 Text("%")
                             }
+                            VStack(alignment: .leading) {
+                                Text(NSLocalizedString("Total drink strength", comment: ""))
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                Slider(value: alcoholSliderBinding, in: 0...100, step: 0.1)
+                            }
                         }
                     }
                     
@@ -73,6 +105,14 @@ struct DrinkEntryView: View {
                                 TextField(NSLocalizedString("Caffeine", comment: ""), text: $caffeineContent)
                                     .keyboardType(.decimalPad)
                                 Text("mg")
+                            }
+                            VStack(alignment: .leading) {
+                                let coffeeGrams = coffeeGramsBinding.wrappedValue
+                                Text("\(NSLocalizedString("Coffee in grams", comment: "")): \(String(format: "%.1f", coffeeGrams))g")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                
+                                Slider(value: coffeeGramsBinding, in: 0...50, step: 1)
                             }
                         }
                     }
