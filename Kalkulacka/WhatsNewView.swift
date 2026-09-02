@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct WhatsNewView: View {
+    @Environment(\.colorScheme) var colorScheme
     @Binding var isPresented: Bool
     
     private let features: [WhatsNewFeature] = [
@@ -31,13 +32,24 @@ struct WhatsNewView: View {
         )
     ]
     
+    var backgroundColors: [Color] {
+        if colorScheme == .dark {
+            return [
+                Color(red: 0.1, green: 0.1, blue: 0.15),
+                Color(red: 0.05, green: 0.1, blue: 0.15)
+            ]
+        } else {
+            return [
+                Color(red: 0.95, green: 0.92, blue: 0.99),
+                Color(red: 0.92, green: 0.95, blue: 1.0)
+            ]
+        }
+    }
+    
     var body: some View {
         ZStack {
             LinearGradient(
-                gradient: Gradient(colors: [
-                    Color(red: 0.95, green: 0.92, blue: 0.99),
-                    Color(red: 0.92, green: 0.95, blue: 1.0)
-                ]),
+                colors: backgroundColors,
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -56,7 +68,7 @@ struct WhatsNewView: View {
                     VStack(spacing: 8) {
                         Text(NSLocalizedString("whats_new_title", comment: ""))
                             .font(.system(size: 28, weight: .bold))
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                             .multilineTextAlignment(.center)
                     }
                 }
@@ -107,6 +119,7 @@ struct WhatsNewView: View {
 }
 
 struct FeatureCardView: View {
+    @Environment(\.colorScheme) var colorScheme
     let feature: WhatsNewFeature
     
     var body: some View {
@@ -126,18 +139,18 @@ struct FeatureCardView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(feature.title)
                     .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(.black)
+                    .foregroundColor(colorScheme == .dark ? .white : .black)
                 
                 Text(feature.description)
                     .font(.system(size: 13, weight: .regular))
-                    .foregroundColor(.gray)
+                    .foregroundColor(colorScheme == .dark ? .gray : .gray)
                     .lineLimit(2)
             }
             
             Spacer()
         }
         .padding(16)
-        .background(Color.white)
+        .background(colorScheme == .dark ? Color(white: 0.15) : Color.white)
         .cornerRadius(12)
         .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
     }

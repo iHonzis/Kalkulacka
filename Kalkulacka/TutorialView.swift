@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TutorialView: View {
+    @Environment(\.colorScheme) var colorScheme
     @Binding var isPresented: Bool
     
     private let steps: [TutorialStep] = [
@@ -37,13 +38,24 @@ struct TutorialView: View {
         )
     ]
     
+    var backgroundColors: [Color] {
+        if colorScheme == .dark {
+            return [
+                Color(red: 0.1, green: 0.1, blue: 0.15),
+                Color(red: 0.05, green: 0.1, blue: 0.15)
+            ]
+        } else {
+            return [
+                Color(red: 0.95, green: 0.92, blue: 0.99),
+                Color(red: 0.92, green: 0.95, blue: 1.0)
+            ]
+        }
+    }
+    
     var body: some View {
         ZStack {
             LinearGradient(
-                gradient: Gradient(colors: [
-                    Color(red: 0.95, green: 0.92, blue: 0.99),
-                    Color(red: 0.92, green: 0.95, blue: 1.0)
-                ]),
+                colors: backgroundColors,
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -55,7 +67,7 @@ struct TutorialView: View {
                     VStack(spacing: 8) {
                         Text(NSLocalizedString("tutorial_title", comment: ""))
                             .font(.system(size: 28, weight: .bold))
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                             .multilineTextAlignment(.center)
                     }
                 }
@@ -106,6 +118,7 @@ struct TutorialView: View {
 }
 
 struct TutorialStepCardView: View {
+    @Environment(\.colorScheme) var colorScheme
     let step: TutorialStep
     let stepNumber: Int
     
@@ -132,18 +145,18 @@ struct TutorialStepCardView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(step.title)
                     .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(.black)
+                    .foregroundColor(colorScheme == .dark ? .white : .black)
                 
                 Text(step.description)
                     .font(.system(size: 13, weight: .regular))
-                    .foregroundColor(.gray)
+                    .foregroundColor(colorScheme == .dark ? .gray : .gray)
                     .lineLimit(2)
             }
             
             Spacer()
         }
         .padding(16)
-        .background(Color.white)
+        .background(colorScheme == .dark ? Color(white: 0.15) : Color.white)
         .cornerRadius(12)
         .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
     }
