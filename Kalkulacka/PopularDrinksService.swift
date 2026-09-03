@@ -24,21 +24,69 @@ struct PopularDrinkData: Identifiable, Codable {
     var caffeineContent: Double? // in mg
     
     var isSizeSelectable: Bool {
-        let normalizedName = name.lowercased()
-        let isBeer = drinkType == .alcohol && normalizedName.contains("beer")
-        let isSoftDrink = drinkType == .caffeine && (
-            normalizedName.contains("coca") ||
-            normalizedName.contains("cola") ||
-            normalizedName.contains("pepsi") ||
-            normalizedName.contains("kofola") ||
-            normalizedName.contains("coke")
-        )
-        return isBeer || isSoftDrink
+        return selectableVolumeOptions.count > 1
+    }
+    
+    var isCaffeineSelectable: Bool {
+        return selectableCaffeineOptions.count > 1
     }
     
     var selectableVolumeOptions: [Double] {
-        guard isSizeSelectable else { return [volume] }
-        return [333, 500, 1000]
+        if drinkType == .alcohol {
+            switch imageName {
+            case "gambrinus", "kozel", "radegast":
+                return [333, 500, 1000]
+            case "wine_glass":
+                return [100, 200, 250]
+            case "wine_bottle":
+                return [700, 750, 1000]
+            case "vodka", "absinth", "whiskey", "rum", "green", "jager", "lemond":
+                return [20, 40, 100]
+            case "champagne":
+                return [100, 150, 200]
+            case "cider":
+                return [400, 450, 500]
+            case "gin_tonic", "mojito":
+                return [150, 200, 250]
+            case "moscow_mule", "cuba_libre":
+                return [150, 200, 250]
+            default:
+                break
+            }
+        } else if drinkType == .caffeine {
+            switch imageName {
+            case "coca_cola", "pepsi", "kofola":
+                return [333, 500, 1000]
+            case "red_bull", "tiger":
+                return [250, 300, 350]
+            case "monster", "monster_ultra", "crazy_wolf", "rockstar", "big_shock":
+                return [333, 400, 500]
+            default:
+                break
+            }
+        }
+        
+        return [volume]
+    }
+    
+    var selectableCaffeineOptions: [Double] {
+        if drinkType == .caffeine {
+            switch imageName {
+            case "espresso", "cappuccino", "latte", "kafe":
+                return [60, 70, 100]
+            case "double_espresso":
+                return [140, 150, 160]
+            case "flat_white":
+                return [80, 100, 120]
+            case "greeen":
+                return [30, 40, 50]
+            case "black":
+                return [60, 70, 80]
+            default:
+                break
+            }
+        }
+        return caffeineContent.map { [$0] } ?? []
     }
     
     func adjustedDrink(for selectedVolume: Double) -> PopularDrinkData {
@@ -52,6 +100,18 @@ struct PopularDrinkData: Identifiable, Codable {
             drinkType: drinkType,
             alcoholPercentage: alcoholPercentage,
             caffeineContent: caffeineContent.map { $0 * scale }
+        )
+    }
+    
+    func adjustedDrinkForCaffeine(_ selectedCaffeine: Double) -> PopularDrinkData {
+        return PopularDrinkData(
+            id: id,
+            name: name,
+            imageName: imageName,
+            volume: volume, // Keep volume the same
+            drinkType: drinkType,
+            alcoholPercentage: alcoholPercentage,
+            caffeineContent: selectedCaffeine
         )
     }
     

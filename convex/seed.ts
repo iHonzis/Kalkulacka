@@ -236,7 +236,7 @@ export const seedDrinks = mutation({
         imageName: "kafe",
         volume: 200,
         drinkType: "caffeine" as const,
-        caffeineContent: 71,
+        caffeineContent: 70,
       },
       {
         name: "Coca-Cola",

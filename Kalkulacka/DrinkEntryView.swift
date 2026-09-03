@@ -253,6 +253,16 @@ struct PopularDrinkButton: View {
         return "\(formattedVolume) \(displayUnit)"
     }
     
+    private func caffeineOptionLabel(for selectedCaffeine: Double, defaultCaffeine: Double) -> String {
+        let formattedCaffeine = Int(selectedCaffeine.rounded())
+        let isDefault = abs(selectedCaffeine - defaultCaffeine) < 0.001
+        let defaultText = NSLocalizedString("Default", comment: "")
+        if isDefault {
+            return "\(formattedCaffeine) mg \(defaultText)"
+        }
+        return "\(formattedCaffeine) mg"
+    }
+    
     var body: some View {
         Button(action: {
             action(drink)
@@ -275,7 +285,15 @@ struct PopularDrinkButton: View {
             .cornerRadius(10)
         }
         .contextMenu {
-            if drink.isSizeSelectable {
+            if drink.isCaffeineSelectable {
+                ForEach(drink.selectableCaffeineOptions, id: \ .self) { caffeine in
+                    Button(action: {
+                        action(drink.adjustedDrinkForCaffeine(caffeine))
+                    }) {
+                        Text(caffeineOptionLabel(for: caffeine, defaultCaffeine: drink.caffeineContent ?? 0))
+                    }
+                }
+            } else if drink.isSizeSelectable {
                 ForEach(drink.selectableVolumeOptions, id: \ .self) { size in
                     Button(action: {
                         action(drink.adjustedDrink(for: size))
