@@ -301,11 +301,10 @@ class PopularDrinksService: ObservableObject {
             
             // Subscribe to the query and get the first value
             let publisher = client.subscribe(to: "popularDrinks:getAllDrinks", yielding: [ConvexDrink].self)
-                .replaceError(with: [])
                 .values
             
             // Wait for the first result
-            for await convexDrinks in publisher {
+            for try await convexDrinks in publisher {
                 print("🌐 Got data from Convex: \(convexDrinks.count) drinks")
                 
                 // If empty result (likely offline/error), fall back to cached or built-in
