@@ -18,93 +18,97 @@ struct ContentView: View {
     }
 
     var body: some View {
-        ZStack {
-            TabView(selection: Binding(
-                get: { shortcutManager.shouldNavigateToTab },
-                set: { shortcutManager.shouldNavigateToTab = $0 }
-            )) {
-                AlcoholView(
-                    drinkStore: drinkStore,
-                    triggerAdd: $triggerAlcoholAdd
-                )
-                .tabItem {
-                    Image(systemName: "wineglass")
-                    Text(NSLocalizedString("Alcohol", comment: ""))
-                }
-                .tag(0)
+        GeometryReader { geometry in
+            ZStack {
+                TabView(selection: Binding(
+                    get: { shortcutManager.shouldNavigateToTab },
+                    set: { shortcutManager.shouldNavigateToTab = $0 }
+                )) {
+                    AlcoholView(
+                        drinkStore: drinkStore,
+                        triggerAdd: $triggerAlcoholAdd
+                    )
+                    .tabItem {
+                        Image(systemName: "wineglass")
+                        Text(NSLocalizedString("Alcohol", comment: ""))
+                    }
+                    .tag(0)
 
-                CaffeineView(
-                    drinkStore: drinkStore,
-                    triggerAdd: $triggerCaffeineAdd
-                )
-                .tabItem {
-                    Image(systemName: "cup.and.saucer")
-                    Text(NSLocalizedString("Caffeine", comment: ""))
+                    CaffeineView(
+                        drinkStore: drinkStore,
+                        triggerAdd: $triggerCaffeineAdd
+                    )
+                    .tabItem {
+                        Image(systemName: "cup.and.saucer")
+                        Text(NSLocalizedString("Caffeine", comment: ""))
+                    }
+                    .tag(1)
                 }
-                .tag(1)
-            }
-            .accentColor(.red)
-            .sheet(isPresented: Binding(
-                get: { shortcutManager.shouldShowDrinkEntry },
-                set: {
-                    shortcutManager.shouldShowDrinkEntry = $0
-                    if !$0 {
-                        shortcutManager.clearShortcut()
+                .accentColor(.red)
+                .sheet(isPresented: Binding(
+                    get: { shortcutManager.shouldShowDrinkEntry },
+                    set: {
+                        shortcutManager.shouldShowDrinkEntry = $0
+                        if !$0 {
+                            shortcutManager.clearShortcut()
+                        }
+                    }
+                )) {
+                    NavigationView {
+                        DrinkEntryView(drinkStore: drinkStore, drinkType: shortcutManager.drinkEntryType)
                     }
                 }
-            )) {
+
+                // Overlay floating buttons center-aligned to the TabView bar (hidden on folded iPhone Duo)
+                if !DeviceLayoutHelper.isIPhoneDuoFolded(size: geometry.size) {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Button(action: {
+                                showingHistory = true
+                            }) {
+                                Circle()
+                                    .fill(.ultraThinMaterial)
+                                    .frame(width: buttonHeight, height: buttonHeight)
+                                    .overlay(
+                                        Image(systemName: "line.3.horizontal")
+                                            .font(.system(size: 22, weight: .medium))
+                                            .foregroundColor(.primary) // Adapt to light/dark mode
+                                    )
+                                    .shadow(color: Color.primary.opacity(0.15), radius: 8, x: 0, y: 4)
+                            }
+                            .accessibilityLabel(Text(NSLocalizedString("Edit", comment: "")))
+                            .padding(.leading, 40)
+
+                            Spacer()
+
+                            Button(action: {
+                                showingUserProfile = true
+                            }) {
+                                Circle()
+                                    .fill(.ultraThinMaterial)
+                                    .frame(width: buttonHeight, height: buttonHeight)
+                                    .overlay(
+                                        Image(systemName: "person.crop.circle")
+                                            .font(.system(size: 22, weight: .medium))
+                                            .foregroundColor(.primary) // Adapt to light/dark mode
+                                    )
+                                    .shadow(color: Color.primary.opacity(0.15), radius: 8, x: 0, y: 4)
+                            }
+                            .accessibilityLabel(Text(NSLocalizedString("Me", comment: "")))
+                            .padding(.trailing, 40)
+                        }
+                        .padding(.bottom, (tabBarHeight / 2) - (buttonHeight / 2)-23) // << this is 14pt
+                    }
+                }
+            }
+            .sheet(isPresented: $showingUserProfile) {
+                UserProfileView(drinkStore: drinkStore)
+            }
+            .sheet(isPresented: $showingHistory) {
                 NavigationView {
-                    DrinkEntryView(drinkStore: drinkStore, drinkType: shortcutManager.drinkEntryType)
+                    DrinkHistoryView(drinkStore: drinkStore, drinkType: currentDrinkType)
                 }
-            }
-
-            // Overlay floating buttons center-aligned to the TabView bar
-            VStack {
-                Spacer()
-                HStack {
-                    Button(action: {
-                        showingHistory = true
-                    }) {
-                        Circle()
-                            .fill(.ultraThinMaterial)
-                            .frame(width: buttonHeight, height: buttonHeight)
-                            .overlay(
-                                Image(systemName: "line.3.horizontal")
-                                    .font(.system(size: 22, weight: .medium))
-                                    .foregroundColor(.primary) // Adapt to light/dark mode
-                            )
-                            .shadow(color: Color.primary.opacity(0.15), radius: 8, x: 0, y: 4)
-                    }
-                    .accessibilityLabel(Text(NSLocalizedString("Edit", comment: "")))
-                    .padding(.leading, 40)
-
-                    Spacer()
-
-                    Button(action: {
-                        showingUserProfile = true
-                    }) {
-                        Circle()
-                            .fill(.ultraThinMaterial)
-                            .frame(width: buttonHeight, height: buttonHeight)
-                            .overlay(
-                                Image(systemName: "person.crop.circle")
-                                    .font(.system(size: 22, weight: .medium))
-                                    .foregroundColor(.primary) // Adapt to light/dark mode
-                            )
-                            .shadow(color: Color.primary.opacity(0.15), radius: 8, x: 0, y: 4)
-                    }
-                    .accessibilityLabel(Text(NSLocalizedString("Me", comment: "")))
-                    .padding(.trailing, 40)
-                }
-                .padding(.bottom, (tabBarHeight / 2) - (buttonHeight / 2)-23) // << this is 14pt
-            }
-        }
-        .sheet(isPresented: $showingUserProfile) {
-            UserProfileView(drinkStore: drinkStore)
-        }
-        .sheet(isPresented: $showingHistory) {
-            NavigationView {
-                DrinkHistoryView(drinkStore: drinkStore, drinkType: currentDrinkType)
             }
         }
     }

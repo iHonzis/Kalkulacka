@@ -21,34 +21,72 @@ struct CaffeineView: View {
                 ScrollView {
                     VStack { // Main container
                         if geometry.size.width > geometry.size.height {
-                            // Landscape Layout
-                            HStack(alignment: .top, spacing: 30) {
-                                VStack(spacing: 30) {
+                            // Landscape Layout (clear of central hinge when horizontally partially unfolded)
+                            let isDuo = DeviceLayoutHelper.isIPhoneDuo
+                            let centerHingeGap: CGFloat = isDuo ? 50 : 30
+                            let columnWidth = max(0, (geometry.size.width - centerHingeGap - 32) / 2)
+                            let boxMaxWidth: CGFloat = min(columnWidth, 360)
+
+                            HStack(alignment: .top, spacing: centerHingeGap) {
+                                VStack(spacing: 24) {
                                     activityRing
                                     addDrinkButton
                                     Spacer()
                                 }
-                                .frame(width: geometry.size.width / 2.5)
+                                .frame(width: columnWidth)
                                 
-                                VStack(spacing: 30) {
+                                VStack(spacing: 20) {
                                     cleanTimeDisplay
+                                        .frame(maxWidth: boxMaxWidth)
                                     todaySummary
+                                        .frame(maxWidth: boxMaxWidth)
                                 }
+                                .frame(width: columnWidth)
                             }
+                            .frame(maxWidth: .infinity)
                         } else {
                             // Portrait Layout
                             VStack(spacing: 30) {
                                 activityRing
                                 cleanTimeDisplay
+                                    .frame(maxWidth: min(geometry.size.width - 32, 420))
                                 addDrinkButton
+                                    .frame(maxWidth: min(geometry.size.width - 32, 420))
                                 todaySummary
+                                    .frame(maxWidth: min(geometry.size.width - 32, 420))
                             }
+                            .frame(maxWidth: .infinity)
                         }
                     }
                     .padding()
                 }
                 .refreshable {
                     self.now = Date()
+                }
+                .toolbar {
+                    if DeviceLayoutHelper.isIPhoneDuoFolded(size: geometry.size) {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button(action: {
+                                showingHistory = true
+                            }) {
+                                Image(systemName: "line.3.horizontal")
+                                    .font(.system(size: 18, weight: .medium))
+                                    .foregroundColor(.primary)
+                            }
+                            .accessibilityLabel(Text(NSLocalizedString("Edit", comment: "")))
+                        }
+                        
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button(action: {
+                                showingUserProfile = true
+                            }) {
+                                Image(systemName: "person.crop.circle")
+                                    .font(.system(size: 18, weight: .medium))
+                                    .foregroundColor(.primary)
+                            }
+                            .accessibilityLabel(Text(NSLocalizedString("Me", comment: "")))
+                        }
+                    }
                 }
             }
             .navigationTitle(NSLocalizedString("title_caffeine", comment: ""))
@@ -197,5 +235,4 @@ struct CaffeineView_Previews: PreviewProvider {
     static var previews: some View {
         CaffeineView(drinkStore: DrinkStore(), triggerAdd: .constant(false))
     }
-} 
-
+}
